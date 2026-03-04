@@ -6,7 +6,7 @@ const minimoParaDesconto: number = 100
 const percentagemDesconto: number = 0.1
 
 const servicoSelecionados: ServicoType[] = []
-const prestadoresDeServico: PrestadorType[] = []
+export const prestadoresDeServico: PrestadorType[] = []
 const prestadoresDeServicoSelecionados: PrestadorType[] = []
 
 //funcao para selecionar servicos e horas estimadas
@@ -61,6 +61,28 @@ export function calcularOrcamento(pedido: PedidoSevicoType) {
         totalFinal = totalFinal - (totalBruto * percentagemDesconto)
     }
 
+}
+
+    //função para selecionar prestadores de servico
+    export function selecionarPrestadorPorNome(nomeDoPrestador: string) {
+
+        //ciclo para encontrar o prestador pelo nome
+        for (let i = 0; i < prestadoresDeServico.length; i++) {
+            // if que verifica se o item [i] do  array eh igual ao nome recebido
+            if (prestadoresDeServico[i]?.nome === nomeDoPrestador) {
+                // se for igual, adiciona do item [i] ao array prestadores 
+                prestadoresDeServicoSelecionados.push(prestadoresDeServico[i]!)
+                // e retorna verdadeiro
+                return true
+            }
+        }
+        //retorna falso
+        return false
+    
+}
+
+
+    
     // () => {} --- arrow function
     // function () {} --- function normal
 
@@ -78,4 +100,3 @@ export function calcularOrcamento(pedido: PedidoSevicoType) {
     desconto sobre total final: 150* 0.1 = 15
     desconto sobre total bruto: 100* 0.1 = 10
     */
-}

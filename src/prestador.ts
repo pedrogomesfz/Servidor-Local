@@ -1,3 +1,6 @@
+import {  prestadoresDeServico } from "./orcamento.js";
+import type { PrestadorType } from "./utils/types.js";
+
 class Prestador {
     nome: string;
     precoHora: number;
@@ -26,7 +29,8 @@ class Prestador {
     }
 }
 
-console.log
+const prestadoresSelecionados: PrestadorType[] = [];
+
 const prestador1 = new Prestador("Pedro",
     100, 
     "Desenvolvidor de Software", 
@@ -34,6 +38,10 @@ const prestador1 = new Prestador("Pedro",
     0.1,
     0.3
 );
+
+
+
+
 
 
 /*
