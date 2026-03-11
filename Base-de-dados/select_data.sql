@@ -1,0 +1,1 @@
+SELECT nome FROM tbl_utilizadores;

@@ -27,7 +27,7 @@ class Prestador {
     alterarNome(novoNome: string) {
         this.nome = novoNome;
     }
-}
+}  
 
 const prestadoresSelecionados: PrestadorType[] = [];
 

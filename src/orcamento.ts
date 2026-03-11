@@ -43,6 +43,105 @@ export function criarPrestadorDeServico(novoPrestador: PrestadorType) {
         data: novoPrestador
     }
 }
+ //função para editar um prestador de servico
+export function editarPrestadordeServico(nomeDoPrestador: string,  novosDadosDoPrestador: PrestadorType){
+    //reecontrar o prestador de servico para editar a minha liasta
+    // ciclo que percorre a lista e verifica o nome de prstador de servico 
+    prestadoresDeServico.map((prestadorExistente: PrestadorType) =>{
+        if( prestadorExistente.nome === nomeDoPrestador){
+            prestadorExistente.nome === novosDadosDoPrestador.nome
+            prestadorExistente.precoHora === novosDadosDoPrestador.precoHora
+            prestadorExistente.profissao === novosDadosDoPrestador.profissao
+            prestadorExistente.minimoParaDesconto === novosDadosDoPrestador.minimoParaDesconto
+            prestadorExistente.percentagemDesconto === novosDadosDoPrestador.minimoParaDesconto
+            prestadorExistente.taxaDesconto === novosDadosDoPrestador.taxaDesconto
+        }
+
+        return {
+            status: true,
+            message: "Prestador de serevico editado com sucesso ",
+            data: prestadorExistente
+        }
+    })
+    // se nao existir nhm orestador cm o nome recebido, retorna uma mensagem de
+            return{
+                status: false,
+                message: "Nao existe nhm prestador de servico com esse nome",
+                data: null
+            }
+}
+/*
+prestadore: [
+"Ambrosio"
+"John"
+"Tautau"
+"Hight"
+"Mister"
+"XponxBob"
+]
+
+
+1kre edita prestador ek t nome "Ambrosio"
+1kre altera Ambrosio p Tautau 
+*/
+
+// prestadorDeServico.replace()
+//função para apagar um prestador de serico
+export function apagarPrestadoresDeServico(nomeDePrestador: string){
+    // ciclo para recorre a lista de prestador
+    //for (let i = 0; i < prestadoresDeServico.length; i++) {
+    //if para verificar se o nome do prestador fpr igual ao nome recebido
+        //if (prestadoresDeServico[i]?.nome === nomeDePrestador) {
+            //retornar uma mensagen de sucesso
+            //prestadoresDeServico.splice(i, 1)
+            // se nao existir nhm prestador com o nome recebido , retorna uma mensagem de emergencia
+// prestadoesDeServicos.find() // se encontrar, devolver um item 
+// prestadoesDeServicos.some() // se encontrar, devolver o item 
+        
+        
+            prestadoresDeServico.filter(
+            (prestador: PrestadorType) => prestador.nome !== nomeDePrestador
+        )
+        // validação do nome de prestador
+        if (nomeDePrestador === ""){
+            return {
+                status: false,
+                message: "Nome do prestador eh obrigatorio",
+                data: null
+            }
+        }
+        
+        const prestadorExistente = prestadoresDeServico.some(
+        (prestadorExistente: PrestadorType) =>
+            prestadorExistente.nome === nomeDePrestador
+    )
+
+    if (!prestadorExistente) {
+        return {
+            status: false,
+            message: "Nao existe nenhum prestador com esse nome",
+            data: null
+        }
+    }
+
+
+
+    prestadoresDeServico.filter(
+        (prestadorExistente: PrestadorType) =>
+            prestadorExistente.nome !== nomeDePrestador
+    )
+return {
+            status: false,
+            message: "Prestador deservico apagado com sucesso",
+            data: null
+        }
+}
+
+
+//função para obter um prestador de serviço pelo nome 
+
+
+
 // funcao para calcular o orcamento
 export function calcularOrcamento(pedido: PedidoSevicoType) {
     let totalBruto: number = 0

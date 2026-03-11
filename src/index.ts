@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express"
 import { adicionarServico, apagarServico, listarServicos, obterServico } from "./servico.js"
-import { calcularOrcamento, criarPrestadorDeServico, selecionarPrestadorPorNome, selecionarServicos } from "./orcamento.js"
+import { apagarPrestadoresDeServico, calcularOrcamento, criarPrestadorDeServico, editarPrestadordeServico, selecionarPrestadorPorNome, selecionarServicos } from "./orcamento.js"
 
 
 const app = express()
@@ -87,14 +87,33 @@ app.post("/selecionar-prestador", (req: Request, res: Response) => {
     })
 })
 
-//rota paara criar prestadores de servico
+//rota para criar prestadores de servico
 app.post("/criar-prestador", (req: Request, res: Response) => {
     // pegar o corpo de requisitos com os dados do novo prestador
-    const novoPrestador  = req.body
+    const { novoPrestador } = req.body
 
-    const criarPrestadorresponse = criarPrestadorDeServico(novoPrestador)
+    // chamar a função de criar prestador de serviço
+    const criarPrestadorResponse = criarPrestadorDeServico(novoPrestador)
+    res.json(criarPrestadorResponse)
+})
+//rota para editar prestadores
+app.put("/editar-prestador", (req: Request, res: Response) => {
+    const {novoPrestador, nomeDoPrestador} = req.body
+    const editarPrestadorResponse = editarPrestadordeServico(nomeDoPrestador, novoPrestador)
+    res.json(editarPrestadorResponse)
+})
 
-    res.json(criarPrestadorresponse)
+//rota para apagar prestadores
+app.delete("/apagar-prestador", (req: Request, res: Response) => {
+    const { nomeDoPrestador } = req.query
+    if (nomeDoPrestador) {
+        const apagarPrestadorResponse = apagarPrestadoresDeServico(nomeDoPrestador as string)
+        res.json(apagarPrestadorResponse)
+    } else {
+        res.json({
+            message: "O nome do prestador apagado com sucesso"
+        })
+    }
 })
 
 app.listen(8080, () => {
