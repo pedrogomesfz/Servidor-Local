@@ -22,6 +22,7 @@ WHERE
 		
 SELECT * FROM tbl_servicos;
 
-SELECT * FROM tbl_utilizadores
+SELECT * FROM tbl_utilizadores;
 
+SELECT * FROM tbl_prestadores
 

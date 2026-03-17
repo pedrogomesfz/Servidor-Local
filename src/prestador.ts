@@ -1,5 +1,7 @@
+import { resourceLimits } from "node:worker_threads";
+import db from "./lib/db.js";
 import {  prestadoresDeServico } from "./orcamento.js";
-import type { PrestadorType } from "./utils/types.js";
+import type { PrestadorType, UserType } from "./utils/types.js";
 
 class Prestador {
     nome: string;
@@ -40,7 +42,21 @@ const prestador1 = new Prestador("Pedro",
 );
 
 
-
+export async function createPrestador(
+prestador: PrestadorType ) {
+    try {
+        console.log(prestador)
+        const [rows] = await db.execute(
+            `INCERT INTO tbl_prestadores(id, nif, profissao, taxa_urgencia, minimo_desconto, prescentagem_desconto, disponivel, enabled, created_at, update_at) VALUES(?,?,?,?,?,?,?,?,?,?)`,
+            [prestador.id, prestador.nif, prestador.profissao, prestador.taxa_urgencia,prestador.minimo_desconto, prestador.percentagem_desconto, prestador.disponivel, prestador.enabled, new Date(), new Date()]
+        )
+        return[rows]
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+    
+}
 
 
 

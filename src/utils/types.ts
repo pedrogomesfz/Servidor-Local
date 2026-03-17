@@ -58,3 +58,36 @@ export interface ServicoType {
     created_at:string ,
     update_at:string
 }
+
+export interface PrestadorType {
+    id:string ,
+    nif:number ,
+    profissao:string,
+    taxa_urgencia:number,
+    minimo_desconto:number,
+    percentagem_desconto:number,
+    disponivel:number,
+    enabled:boolean,
+    created_at:string ,
+    update_at:string
+}
+
+export interface ListaServicoType {
+    id:string ,
+    nome:string ,
+    descricao:string,
+    categoria:string,
+    enabled:boolean,
+    created_at:string ,
+    update_at:string
+}
+
+export interface ServiceDBType {
+    id:string,
+    nome:string,
+    descricao:string,
+    categoria:string,
+    enabled:boolean,
+    created_at:string,
+    update_at:string
+}

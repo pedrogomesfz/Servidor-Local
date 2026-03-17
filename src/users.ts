@@ -1,4 +1,6 @@
+import { create } from "node:domain";
 import db from "./lib/db.js";
+
 import type { ServicoType, UserType } from "./utils/types.js";
 
 
@@ -38,13 +40,4 @@ user: UserType ) {
 
 }
 
-//criar uma função para inserir serviços na base de dados
-export async function createServico(servico:ServicoType) {
-    try {
-        const [rows] = await db.execute(
-            `INSERT INTO tbl_servicos(id, nome, descricao, categoria, enebled, created_at, update_at)`
-)
-    } catch (error) {
-        
-    }
-}
+

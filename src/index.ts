@@ -1,9 +1,14 @@
 import express, { type Request, type Response } from "express";
 import {
+    addServicesToDB,
     adicionarServico,
     apagarServico,
+    deleteService,
+    getAllServices,
+    getServicesById,
     listarServicos,
     obterServico,
+    updateService,
 } from "./servico.js";
 import {
     apagarPrestadoresDeServico,
@@ -16,7 +21,9 @@ import {
 import type { ResolveFnOutput } from "node:module";
 import { getUsersById, getUsers, createUser } from "./users.js";
 import { userInfo } from "node:os";
-import type { UserType } from "./utils/types.js";
+import type { ListaServicoType, PrestadorType, ServiceDBType, ServicoType, UserType, } from "./utils/types.js";
+import { createPrestador } from "./prestador.js";
+import { createServico } from "./listas.js";
 
 const app = express();
 app.use(express.json());
@@ -185,12 +192,157 @@ res.json(createUserResponse);
     
     })
 
+//rota para inserir um servico na base de dados 2
+app.post("/create-service", async (req: Request, res: Response)=>{
+    const newService: ServiceDBType= req.body
+    if(!newService){
+        res.status(404).json({
+            status: "error",
+            message: "Dados de servico invalidos",
+            data: null
+        })
+    }
 
+    // 429 too many requests
+    // 409 conflict
+    // 201 no content
 
+    console.log(newService)
 
+    const createServiceResponse = await addServicesToDB(newService)
+//caso funçãqo retorne null
+    if(createServiceResponse === null){
+        res.status(400).json({
+            status: "error",
+            message: "Erro ao criar servico",
+            data: null
+        })
+    }
+
+    res.status(200).json({
+        status: "success",
+        message: "Servico criado com sucesso",
+        data: createServiceResponse
+    })
+    
+});
+app.get("/get-service-by-id", async (req: Request, res: Response)=>{
+     const {id} = req.params
+
+     if(!id){
+        return res.status(404).json({
+            status: "error",
+            message: "ID obrigatorio",
+            data: null
+        })
+    }
+    
+    const getServiceByIdResponse = await getServicesById(id as string)
+    
+    if(!getServiceByIdResponse){
+        return res.status(404).json({
+            status: "error",
+            message: "Servico nao encontrado",
+            data: null
+        })
+    }
+    
+    res.status(200).json({
+        status: "success",
+        message: "Servico encontrado",
+        data: getServiceByIdResponse
+    })
+
+})
+//rota para selecionar todos os servicos na base de dados
+app.get("/get-all-services", async (req: Request, res: Response)=>{
+    const getAllServicesResponse = await getAllServices()
+
+    if(!getAllServicesResponse){
+        return res.status(404).json({
+            status: "error",
+            message: "Erro ao selecionar servicos",
+            data: null
+        })
+    }
+
+    res.status(200).json({
+        status: "success",
+        message: "Servicos encontrados",
+        data: getAllServicesResponse
+    })
+})
+
+app.put("/update-service-id/:id", async (req: Request, res: Response)=>{
+    const {id} = req.params
+    const updatedService : ServiceDBType = req.body
+
+    if(!id){
+        return res.status(404).json({
+            status: "error",
+            message:"dados de servico invalidos",
+            data: null
+        })
+    }
+
+    if (!updatedService){
+        return res.status(400).json({
+            status: "error",
+            message: "ID obrigatorio",
+            data: null
+        })
+    }
+
+    const updateServiceResponse = await updateService(id as string, updatedService)
+
+    if(!updateServiceResponse){
+        return res.status(400).json({
+            status: "error",
+            message: "Erro ao atualizar servico",
+            data: null
+        })
+    }
+
+    res.status(200).json({
+        status: "success",
+        message: "Erro ao encontrar servico",
+        data: updateServiceResponse
+    })
+})
+
+// rota para apagar um servico pelo id
+app.delete("/delete-service-by-id", async (req: Request, res: Response)=>{
+
+    const {id} = req.params
+
+    if(!id){
+        return res.status(404).json({
+            status: "error",
+            message: "ID obrigatorio",
+            data: null
+        })
+    }
+
+    const deleteServiceResponse = await deleteService(id as string)
+
+    if(!deleteServiceResponse){
+        return res.status(400).json({
+            status: "error",
+            message: "Erro ao apagar servico",
+            data: null
+        })
+    }
+
+    res.status(200).json({
+        status: "success",
+        message: "Servico apagado com sucesso",
+        data: deleteServiceResponse
+    })
+})
 
 app.listen(8080, () => {
     console.log("Server running on port 8080");
 });
+
 
 
