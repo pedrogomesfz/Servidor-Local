@@ -33,3 +33,28 @@ export interface PrestadorType {
     percentagemDesconto: number;
     taxaDesconto: number;
 }
+
+export interface UserType {
+    id: string,
+	nome:   string,
+	numero_identificado: string,
+	data_nascimento: string,
+	email: string,
+    telefone: string,
+	pais: string,
+	localidade: string,
+    password: string;
+    enabled: boolean;
+    created_at: string;
+    updated_at: string
+}
+
+export interface ServicoType {
+    id:string ,
+    nome:string ,
+    descricao:string,
+    categoria:string,
+    enabled:boolean,
+    created_at:string ,
+    update_at:string
+}

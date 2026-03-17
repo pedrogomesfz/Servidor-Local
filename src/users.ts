@@ -1,4 +1,5 @@
 import db from "./lib/db.js";
+import type { ServicoType, UserType } from "./utils/types.js";
 
 
 export async function getUsers() {
@@ -17,13 +18,33 @@ export async function getUsersById(id: string) {
     return Array.isArray(rows) ? rows[0] : rows
 }
 
-//criar uma função para inserir um tilizador ma base de dados
-export async function createUser(nome: string, endereco: string, contacto: string) {
+//criar uma função para inserir um utilizador na base de dados
+export async function createUser(
+user: UserType ) {
+    try {
+        
+    console.log(user)
     const [rows] = await db.execute(
-        `INSERT INTO tbl_utilizadores (nome, endereco, contacto) VALUES (?, ?, ?)`,
-        [nome, endereco, contacto]
-    )
-    return rows
+        `INSERT INTO tbl_utilizadores (id,nome, numero_identificado, data_nascimento, email, telefone,
+        pais, localidade, password , enabled, created_at, update_at) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?,?)`,
+        [user.id, user.nome, user.numero_identificado, user.data_nascimento, user.email, user.telefone, user.pais, user.localidade, user.password, user.enabled,new Date(),new Date()]
+    );
+    return rows;
+    }
+    catch (error) {
+        console.log(error)
+        return null
+    }
+
 }
 
-new Date()
+//criar uma função para inserir serviços na base de dados
+export async function createServico(servico:ServicoType) {
+    try {
+        const [rows] = await db.execute(
+            `INSERT INTO tbl_servicos(id, nome, descricao, categoria, enebled, created_at, update_at)`
+)
+    } catch (error) {
+        
+    }
+}

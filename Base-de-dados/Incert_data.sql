@@ -8,9 +8,9 @@ INSERT INTO tbl_utilizadores(
 	pais, 
 	localidade,
 	`password`,
-	 enabled,
-	 created_at,
-	 update_at
+	enabled,
+	created_at,
+	update_at
 ) VALUES (
 	"4b016090-c538-4583-b6ba-37032f4ac5c1",
 	"Pedro Gomes",

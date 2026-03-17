@@ -14,7 +14,9 @@ import {
     selecionarServicos,
 } from "./orcamento.js";
 import type { ResolveFnOutput } from "node:module";
-import {  getUsersById, getUsers } from "./users.js";
+import { getUsersById, getUsers, createUser } from "./users.js";
+import { userInfo } from "node:os";
+import type { UserType } from "./utils/types.js";
 
 const app = express();
 app.use(express.json());
@@ -24,6 +26,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // rota para adicionar um serviço novo
+
 app.post("/adicionar-servico", (req: Request, res: Response) => {
     const novoServico = req.body;
 
@@ -164,7 +167,30 @@ app.get("/get-users-by-id", async (req: Request, res: Response) => {
         });
     }
 });
+//rota incerir um utilizador na base de dados
+app.post("/create-user", async (req: Request, res: Response) => {
+    const user: UserType = req.body;
+
+    if (!user) {
+        res.status(404).json({
+            status: "error",
+            message: "Dados de utilizador invalido",
+            data: null
+        })
+    }
+    const createUserResponse = await createUser(
+        user
+    );
+res.json(createUserResponse);
+    
+    })
+
+
+
+
 
 app.listen(8080, () => {
     console.log("Server running on port 8080");
 });
+
+

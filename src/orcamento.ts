@@ -139,6 +139,10 @@ return {
 
 
 //função para obter um prestador de serviço pelo nome 
+export function obterPrestadorPorNome(nomeDoPrestador: string) {
+    // Retorna o objeto se encontrar, ou undefined (que podes converter para null)
+    return prestadoresDeServico.find(p => p?.nome === nomeDoPrestador) || null;
+}
 
 
 
