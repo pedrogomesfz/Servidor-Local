@@ -2,7 +2,7 @@ import db from "./lib/db.js"
 import type { ServicoType } from "./utils/types.js"
 
 // função para cria de servico
- export async function createServico(
+export async function createServico(
     servico: ServicoType ) {
     try {
         const [rows] = await db.execute(
