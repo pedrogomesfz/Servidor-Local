@@ -1,9 +1,9 @@
 import type { PropostaDBType } from "../utils/types.js"
+import { PropostaModel } from "../models/proposta.models.js"
 import type { Request, Response } from "express"
-import { PropostaController } from "../models/proposta.models.js"
 
 export const PropostaController = {
-    async CreateProposta(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const newProposta: PropostaDBType = req.body
 
         if (!newProposta) {
@@ -14,7 +14,7 @@ export const PropostaController = {
             })
         }
 
-        const createPropostaResponse = await PropostaController.CreatePropostaController(newProposta)
+        const createPropostaResponse = await PropostaModel.create(newProposta)
         if (createPropostaResponse) {
             return res.status(400).json({
                 status: "error",
@@ -30,8 +30,8 @@ export const PropostaController = {
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllPropostaResponse = await PropostaController.getAll()
-        if (!getAllPropostaResponse) {
+        const getAllPropostaControllerResponse = await PropostaModel.getAll()
+        if (!getAllPropostaControllerResponse) {
             return res.status(500).json({
                 status: "error",
                 message: "Erro ao buscar proposta",
@@ -56,8 +56,8 @@ export const PropostaController = {
             })
         }
 
-        const getPropostaResponse = await PropostaModel.get(id as string)
-        if (!getPropostaResponse) {
+        const getPropostaControllerResponse = await PropostaModel.get(id as string)
+        if (!getPropostaControllerResponse) {
             return res.status(400).json({
                 status: "error",
                 message: "Proposta nao encontrada",
@@ -74,7 +74,7 @@ export const PropostaController = {
     async update(req: Request, res: Response) {
         const { id } = req.params
 
-        const updatedProposta: PropostaDBType = req.body
+        const updatedPropostaController: PropostaDBType = req.body
 
         if (!id) {
             return res.status(400).json({
@@ -84,7 +84,7 @@ export const PropostaController = {
             })
         }
 
-        if (!updatedProposta) {
+        if (!updatedPropostaController) {
             return res.status(400).json({
                 status: "error",
                 message: "Dados da proposta invalidos",
@@ -92,9 +92,9 @@ export const PropostaController = {
             })
         }
 
-        const updatedPropostaResponse = await PropostaModel.update(id as string, updatedProposta)
+        const updatedPropostaControllerResponse = await PropostaModel.update(id as string, updatedPropostaController)
 
-        if (!updatedPropostaResponse) {
+        if (!updatedPropostaControllerResponse) {
             return res.status(400).json({
                 status: "error",
                 message: "Error ao atualizar proposta",
@@ -121,8 +121,8 @@ export const PropostaController = {
             })
         }
 
-        const deletePropostaResponse = await PropostaModel.delete(id as string)
-        if (!deletePropostaResponse) {
+        const deletePropostaControllerResponse = await PropostaModel.delete(id as string)
+        if (!deletePropostaControllerResponse) {
             return res.status(400).json({
                 status: "error",
                 message: "Erro ao apagar proposta",
@@ -132,8 +132,8 @@ export const PropostaController = {
 
         return res.status(200).json({
             status: "success",
-            message: "Servico apagado com success",
-            data: deletePropostaResponse
+            message: "Proposta apagada com success",
+            data: deletePropostaControllerResponse
         })
     }
 }

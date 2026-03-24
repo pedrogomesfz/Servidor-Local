@@ -152,12 +152,13 @@ export interface PropostaDBType {
 
 export interface PrestacaoServicoDBType {
     id:string,
-    descricao:string,
-    subtorial:string
-    horas_estimadas:Number,
+    designacao:string,
+    subtorial:string,
+    horas_estimadas:number,
     id_prestadores:string,
     id_orcamento:string,
     id_servico:string,
     preco_hora:number,
     created_at:string
+
 }

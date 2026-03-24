@@ -1,6 +1,6 @@
 // import { assServicoToDB } from "../models/servico.modedel.js"
-import type { get } from "node:http"
-import { ServiceModel } from "../models/servico.models.js"
+
+import { ServiceModel } from "../models/servico.modles.js"
 import type { ServiceDBType } from "../utils/types.js"
 import type { Request, Response } from "express"
 

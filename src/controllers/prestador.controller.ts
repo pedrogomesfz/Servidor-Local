@@ -1,11 +1,12 @@
 // import { assServicoToDB } from "../models/servico.modedel.js"
+import type { create } from "node:domain"
 import { PrestadorModel } from "../models/prestador.models.js"
 import type { PrestadorDBType } from "../utils/types.js"
 import type { Request, Response } from "express"
 
 
 export const PrestadorController = {
-    async CreatePrestador(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const newPrestador: PrestadorDBType = req.body
 
         if (!newPrestador) {

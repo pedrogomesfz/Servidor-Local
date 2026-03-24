@@ -30,7 +30,7 @@ export const ServiceModel = {
 
     async getAll() {
         try {
-            const query = 'SELECT * FROM tbl_servicos'
+            const query = 'SELECT * FROM tbl_servico'
 
             const rows = await db.execute(query)
 

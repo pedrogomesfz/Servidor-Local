@@ -22,7 +22,7 @@ ALTER TABLE tbl_prestadores
     ADD COLUMN precentagem_desconto DECIMAL(10, 3) AFTER minimo_desconto,
     DROP COLUMN precoHora 
 ;
-     
+
 CREATE TABLE tbl_utilizadores(
 id VARCHAR (255) PRIMARY KEY NOT NULL  UNIQUE,
 nome VARCHAR(50) NOT NULL,

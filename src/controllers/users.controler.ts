@@ -7,7 +7,7 @@ import { updateUser } from "../users.js"
 
 
 export const UserController = {
-    async CreateUser(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const newUser: UserDBType = req.body
 
         if (!newUser) {
@@ -141,3 +141,5 @@ export const UserController = {
         })
     }
 }
+
+export { UserModel }

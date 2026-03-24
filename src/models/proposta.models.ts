@@ -1,17 +1,19 @@
 
 import db from "../lib/db.js";
-import type { OrcamentoDBType } from "../utils/types.js";
+import type { PropostaDBType } from "../utils/types.js";
 
-export const OrcamentoModel = {
-    async create(newOrcamento: OrcamentoDBType) {
+export const PropostaModel = {
+    async create(newProposta: PropostaDBType) {
         try {
-            const query = 'INSERT INTO tbl_orcamento (id, total, id_utilizador2, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)'
+            const query = 'INSERT INTO tbl_proposta (id, id_prestacao_servico,preco_hora,horas_estimadas,estado, enabled, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)'
 
             const values = [
                 null,
-                newOrcamento.total,
-                newOrcamento.id_utilizador2,
-                newOrcamento.enabled,
+                newProposta.id_prestacao_servico,
+                newProposta.preco_hora,
+                newProposta.horas_estimadas,
+                newProposta.estado,
+                newProposta.enabled,
                 new Date(),
                 new Date()
             ]
@@ -57,21 +59,25 @@ export const OrcamentoModel = {
         }
     },
 
-    async update(id: string, orcamentoAtualizado: OrcamentoDBType) {
+    async update(id: string, propostaAtualizado: PropostaDBType) {
         try {
-            const query = `UPDATE tbl_orcamento
+            const query = `UPDATE tbl_proposta
                         SET
                             id=?,
-                            dtotal=?,
-                            is_utilizador2=?,
+                            id_prestacao_servico=?,
+                            preco_hora=?,
+                            horas_estimadas=?,
+                            estado=?,
                             enabled=?,
                             updated_at=?`
 
             const values = [
-                orcamentoAtualizado.id,
-                orcamentoAtualizado.total,
-                orcamentoAtualizado.id_utilizador2,
-                orcamentoAtualizado.enabled,
+                propostaAtualizado.id,
+                propostaAtualizado.id_prestacao_servico,
+                propostaAtualizado.preco_hora,
+                propostaAtualizado.horas_estimadas,
+                propostaAtualizado.estado,
+                propostaAtualizado.enabled,
                 new Date(),
                 id
             ]
@@ -87,7 +93,7 @@ export const OrcamentoModel = {
 
     async delete(id: string) {
         try {
-        const query = `DELETE FROM tbl_orcamento WHERE id =?`
+        const query = `DELETE FROM tbl_proposta WHERE id =?`
 
         const value = [id]
 

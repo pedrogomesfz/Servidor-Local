@@ -47,7 +47,7 @@ prestador: PrestadorType ) {
     try {
         console.log(prestador)
         const [rows] = await db.execute(
-            `INCERT INTO tbl_prestadores(id, nif, profissao, taxa_urgencia, minimo_desconto, prescentagem_desconto, disponivel, enabled, created_at, update_at) VALUES(?,?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO tbl_prestadores(id, nif, profissao, taxa_urgencia, minimo_desconto, prescentagem_desconto, disponivel, enabled, created_at, update_at) VALUES(?,?,?,?,?,?,?,?,?,?)`,
             [prestador.id, prestador.nif, prestador.profissao, prestador.taxa_urgencia,prestador.minimo_desconto, prestador.percentagem_desconto, prestador.disponivel, prestador.enabled, new Date(), new Date()]
         )
         return[rows]

@@ -1,26 +1,28 @@
 
-import db from "../lib/db.js";
-import type { OrcamentoDBType } from "../utils/types.js";
+import { error } from "node:console"
+import db from "../lib/db.js"
+import type { OrcamentoDBType } from "../utils/types.js"
+import { generateUUID } from "../utils/uuid.js"
+
 
 export const OrcamentoModel = {
-    async create(newOrcamento: OrcamentoDBType) {
+    async create(Orcamento: OrcamentoDBType) {
         try {
-            const query = 'INSERT INTO tbl_orcamento (id, total, id_utilizador2, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)'
+            const [rows] = await db.execute(
+                `INSERT INTO tbl_orcamentos 
+                VALUES (?, ?, ?, ?, ?, ?)`,
 
-            const values = [
-                null,
-                newOrcamento.total,
-                newOrcamento.id_utilizador2,
-                newOrcamento.enabled,
-                new Date(),
-                new Date()
-            ]
-
-            const rows: any = await db.execute(query, values)
-
-            return rows[0].affectedRows === 1
-
-
+                [
+                    generateUUID(),
+                    Orcamento.total,
+                    Orcamento.id_utilizador2,
+                    Orcamento.enabled,
+                    new Date(),
+                    new Date()
+                ]
+            )
+            console.log({ rows })
+            return rows
         } catch (error) {
             console.log(error)
             return null
@@ -28,61 +30,48 @@ export const OrcamentoModel = {
     },
 
     async getAll() {
-        try {
-            const query = 'SELECT * FROM tbl_orcamento'
+        const [rows] = await db.execute("SELECT * FROM tbl_orcamentos")
 
-            const rows = await db.execute(query)
-
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
-
-        } catch (error) {
-            console.log(error)
-            return null
-        }
+        return rows
     },
 
     async get(id: string) {
         try {
-            const query = 'SELECT * FROM tbl_orcamento WHERE id = ?'
+            const [rows] = await db.execute(
+                `SELECT * FROM tbl_orcamentos 
+                WHERE tbl_orcamentos.id = ?`, 
 
-            const value = [id]
+                [id]
+            )
 
-            const rows = await db.execute(query, value)
-
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
-
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows[0] : null
         } catch (error) {
             console.log(error)
             return null
         }
     },
 
-    async update(id: string, orcamentoAtualizado: OrcamentoDBType) {
+    async update(id: string, orcamento: OrcamentoDBType) {
         try {
-            const query = `UPDATE tbl_orcamento
-                        SET
-                            id=?,
-                            id_prestacao_servico=?,
-                            preco_hora=?,
-                            horas_estimadas=?,
-                            estado=?,
-                            enabled=?,
-                            updated_at=?`
+            const [rows] = await db.execute(
+                `UPDATE tbl_orcamentos 
+                SET total = ?, 
+                id_utilizadores = ?, 
+                enabled = ?, 
+                updated_at = ?
+                WHERE id = ?`,
 
-            const values = [
-                orcamentoAtualizado.id,
-                orcamentoAtualizado.id_prestacao_servico,
-                orcamentoAtualizado.preco_hora,
-                orcamentoAtualizado.horas_estimadas,
-                orcamentoAtualizado.estado,
-                orcamentoAtualizado.enabled,
-                new Date(),
-                id
-            ]
-
-            const rows: any = await db.execute(query, values)
-
-            return rows[0].affectedRows === 1
+                [
+                    orcamento.total,
+                    orcamento.id_utilizador2,
+                    orcamento.enabled,
+                    new Date(),
+                    id
+                ]
+            )
+            console.log({ rows })
+            return rows
         } catch (error) {
             console.log(error)
             return null
@@ -91,19 +80,17 @@ export const OrcamentoModel = {
 
     async delete(id: string) {
         try {
-        const query = `DELETE FROM tbl_orcamento WHERE id =?`
+            const rows: any = await db.execute(
+                `DELETE FROM tbl_orcamentos 
+                WHERE id = ?`,
 
-        const value = [id]
+                [id]
+            )
 
-        const rows :
-        any = await db.execute(query, value)
-
-            return rows[0].affectedRows === 1
-    } catch (error) {
-        console.log(error)
-        return null
+            return rows[0].affectedRows === 0 ? null : rows[0]
+        } catch (error) {
+            console.log(error)
+            return null
+        }
     }
-    },
-
-    
 }
