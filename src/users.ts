@@ -2,7 +2,7 @@ import { create } from "node:domain";
 import db from "./lib/db.js";
 
 import type { ServicoType, UserDBType, UserType } from "./utils/types.js";
-import { genereteUUID } from "./utils/uuid.js";
+import { generateUUID } from "./utils/uuid.js";
 import { hashPassword } from "./utils/password.js";
 import { formatDateDDMMYYYY } from "./utils/date.js";
 
@@ -33,7 +33,7 @@ user: UserType ) {
         `INSERT INTO tbl_utilizadores
         VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?,?)`,
         [
-        genereteUUID(), 
+        generateUUID(), 
         user.nome, 
         user.numero_identificado, 
         formatDateDDMMYYYY(user.data_nascimento), 

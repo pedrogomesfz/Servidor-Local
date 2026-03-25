@@ -1,0 +1,43 @@
+# Schema/servico.yaml
+
+componets:
+
+  schemas:
+  #sequema principal de servico
+    Servico:
+      type: object
+      porperties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: "Serviço de limpeza"
+        descricao:
+          type: string
+          example: "Serviço de limpesza profissional para resdênciais e "
+        categoria:
+          type: string
+          example: "LImpeza"
+        enabled:
+          type: boolean
+          example: true 
+        created_at:
+          type: string
+          example: "2022-02-02T00:00:00.00Z"
+        update_at:
+          type: string
+          example: "2022-02-02T00:00:00.00Z"
+
+
+          #schema generico de erro 
+          ResponseError:
+          type: object
+          properties:
+            message:
+              type: string
+              example: false 
+            data: 
+              type: object
+              properties:
+                null
