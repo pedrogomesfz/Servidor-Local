@@ -1,43 +1,75 @@
 # Schema/servico.yaml
 
 componets:
-
   schemas:
-  #sequema principal de servico
+    #sequema principal de servico
     Servico:
       type: object
       porperties:
         id:
           type: integer
           example: 1
+      nome:
+        type: string
+        example: Serviço de limpeza
+      descricao:
+        type: string
+        example: Serviço de limpesza profissional para resdências e empresas.
+      categoria:
+        type: string
+        example: "LImpeza"
+      enabled:
+        type: boolean
+        example: true
+      created_at:
+        type: string
+        example: "2022-02-02T00:00:00.00Z"
+      update_at:
+        type: string
+        example: "2022-02-02T00:00:00.00Z"
+
+    #schema para criar um novo sreviço
+    CreateService:
+      type: object
+      properties:
         nome:
           type: string
-          example: "Serviço de limpeza"
+          example: "Servico de limpeza"
         descricao:
           type: string
-          example: "Serviço de limpesza profissional para resdênciais e "
+          example: servico de limpeza profissional
         categoria:
           type: string
-          example: "LImpeza"
+          example: limpeza
         enabled:
           type: boolean
-          example: true 
-        created_at:
+          example: true
+    #schema generico para success
+    ResonseSuccess:
+      type: object
+      properties:
+        message:
           type: string
-          example: "2022-02-02T00:00:00.00Z"
-        update_at:
-          type: string
-          example: "2022-02-02T00:00:00.00Z"
-
-
-          #schema generico de erro 
-          ResponseError:
+          example: "Servico criado com sucesso"
+        status:
+          type: boolean
+          example: true
+        data:
           type: object
-          properties:
-            message:
-              type: string
-              example: false 
-            data: 
-              type: object
-              properties:
-                null
+          example: "#/components/schemas/Servico"
+        
+
+
+    #schema generico de resposta de erro
+    ResponseError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: false
+      data:
+        type: object
+        properties:
+          nome:
+            type: string
+            example: null
