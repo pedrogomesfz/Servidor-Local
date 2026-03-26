@@ -1,75 +1,76 @@
 # Schema/servico.yaml
 
-componets:
+components:
   schemas:
-    #sequema principal de servico
+
+    # Schema principal de serviço
     Servico:
       type: object
-      porperties:
+      properties:
         id:
           type: integer
           example: 1
-      nome:
-        type: string
-        example: Serviço de limpeza
-      descricao:
-        type: string
-        example: Serviço de limpesza profissional para resdências e empresas.
-      categoria:
-        type: string
-        example: "LImpeza"
-      enabled:
-        type: boolean
-        example: true
-      created_at:
-        type: string
-        example: "2022-02-02T00:00:00.00Z"
-      update_at:
-        type: string
-        example: "2022-02-02T00:00:00.00Z"
+        nome:
+          type: string
+          example: "Serviço de limpeza"
+        descricao:
+          type: string
+          example: "Serviço de limpeza profissional para residências e empresas."
+        categoria:
+          type: string
+          example: "Limpeza"
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
 
-    #schema para criar um novo sreviço
+    # Schema para criar um novo serviço
     CreateService:
       type: object
       properties:
         nome:
           type: string
-          example: "Servico de limpeza"
+          example: "Serviço de limpeza"
         descricao:
           type: string
-          example: servico de limpeza profissional
+          example: "Serviço de limpeza profissional"
         categoria:
           type: string
-          example: limpeza
+          example: "Limpeza"
         enabled:
           type: boolean
           example: true
-    #schema generico para success
-    ResonseSuccess:
+
+    # Schema genérico de sucesso
+    ResponseSuccess:
       type: object
       properties:
         message:
           type: string
-          example: "Servico criado com sucesso"
+          example: "Serviço criado com sucesso"
         status:
           type: boolean
           example: true
         data:
-          type: object
-          example: "#/components/schemas/Servico"
-        
+          $ref: "#/components/schemas/Servico"
 
-
-    #schema generico de resposta de erro
+    # Schema genérico de erro
     ResponseError:
       type: object
       properties:
         message:
           type: string
-          example: false
-      data:
-        type: object
-        properties:
-          nome:
-            type: string
-            example: null
+          example: "Erro na requisição"
+        data:
+          type: object
+          properties:
+            nome:
+              type: string
+              example: null
