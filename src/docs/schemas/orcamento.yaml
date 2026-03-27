@@ -1,0 +1,76 @@
+# Schema/orcamento.yaml
+
+components:
+  schemas:
+
+    # Schema principal de orcamento
+    orcamento:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: "orcamento de limpeza"
+        descricao:
+          type: string
+          example: "orcamento de limpeza profissional para residências e empresas."
+        categoria:
+          type: string
+          example: "Limpeza"
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+
+    # Schema para criar um novo orcamento
+    CreateOrcamento:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "orcamento de limpeza"
+        descricao:
+          type: string
+          example: "orcamento de limpeza profissional"
+        categoria:
+          type: string
+          example: "Limpeza"
+        enabled:
+          type: boolean
+          example: true
+
+    # Schema genérico de sucesso
+    ResponseSuccess:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "orcamento criado com sucesso"
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/orcamento"
+
+    # Schema genérico de erro
+    ResponseError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Erro na requisição"
+        data:
+          type: object
+          properties:
+            nome:
+              type: string
+              example: null

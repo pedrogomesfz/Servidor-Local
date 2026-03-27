@@ -1,0 +1,76 @@
+# Schema/prestacao.servico.yaml
+
+components:
+  schemas:
+
+    # Schema principal de prestacao.servico
+    prestacao.servico:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: "prestacao.servico de limpeza"
+        descricao:
+          type: string
+          example: "prestacao.servico de limpeza profissional para residências e empresas."
+        categoria:
+          type: string
+          example: "Limpeza"
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+
+    # Schema para criar um novo prestacao.servico
+    CreatePrestacao.servico:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "prestacao.servico de limpeza"
+        descricao:
+          type: string
+          example: "prestacao.servico de limpeza profissional"
+        categoria:
+          type: string
+          example: "Limpeza"
+        enabled:
+          type: boolean
+          example: true
+
+    # Schema genérico de sucesso
+    ResponseSuccess:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "prestacao.servico criado com sucesso"
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/prestacao.servico"
+
+    # Schema genérico de erro
+    ResponseError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Erro na requisição"
+        data:
+          type: object
+          properties:
+            nome:
+              type: string
+              example: null

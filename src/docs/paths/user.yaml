@@ -1,44 +1,43 @@
-# paths/servico.yaml
+# paths/user.yaml
 
 paths:
-
-  /servico:
+  /user:
     get:
-      summary: Listar todos os serviços
+      summary: Listar todos os users
       tags:
-        -Servico
-      description: Retorna uma lista de todos os serviços disponíveis
+        -User
+      description: Retorna uma lista de todos os users disponíveis
       responses:
         "200":
-          description: Lista de serviços
+          description: Lista de users
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Servico"
+                  $ref: "#/components/schemas/user"
         "404":
-          description: Nenhum serviço encontrado
+          description: Nenhum user encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /service/create:
+  /user/create:
     post:
-      summary: Criar um novo serviço
+      summary: Criar um novo user
       tags:
-        -Servico
-      description: Cria um novo serviço
+        -User
+      description: Cria um novo user
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateService"
+              $ref: "#/components/schemas/CreateUser"
       responses:
         "200":
-          description: Serviço criado com sucesso
+          description: user criado com sucesso
           content:
             application/json:
               schema:
@@ -50,45 +49,43 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /service/get-by-id/{id}:
+  /user/get-by-id/{id}:
     get:
-      summary: Buscar um serviço por ID
+      summary: Buscar um user por ID
       tags:
-        -Servico
-      description: Retorna um serviço específico pelo ID
+        -User
+      description: Retorna um user específico pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do serviço
+          description: ID do user
           schema:
             type: integer
             example: 1
       responses:
         "200":
-          description: Serviço encontrado
+          description: user encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseSuccess"
         "404":
-          description: Serviço não encontrado
+          description: user não encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /service/update/{id}:
+  /user/update/{id}:
     put:
-      summary: Atualizar um serviço
-      tags:
-        -Servico
-      description: Atualiza um serviço pelo ID
+      summary: Atualizar um user
+      description: Atualiza um user pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do serviço a ser atualizado
+          description: ID do user a ser atualizado
           schema:
             type: integer
             example: 1
@@ -97,44 +94,42 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateService"
+              $ref: "#/components/schemas/CreateUser"
       responses:
         "200":
-          description: Serviço atualizado com sucesso
+          description: user atualizado com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseSuccess"
         "404":
-          description: Serviço não encontrado
+          description: user não encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /service/delete/{id}:
+  /user/delete/{id}:
     delete:
-      summary: Apagar um serviço
-      tags:
-        -Servico
-      description: Apaga um serviço específico pelo ID
+      summary: Apagar um user
+      description: Apaga um user específico pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do serviço a ser apagado
+          description: ID do user a ser apagado
           schema:
             type: integer
             example: 1
       responses:
         "200":
-          description: Serviço apagado com sucesso
+          description: User apagado com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseSuccess"
         "404":
-          description: Serviço não encontrado
+          description: user não encontrado
           content:
             application/json:
               schema:

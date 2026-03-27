@@ -1,0 +1,79 @@
+# Schema/user.yaml
+
+components:
+  schemas:
+
+    # Schema principal de user
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: "user de limpeza"
+        numero_identificado:
+          type: string
+          example: "M01288"
+        email:
+          type: string
+          example: "bruittbrnbrn@gmail.com"
+        numero_utilizador:
+          type: string
+          example: 0098
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+
+    # Schema para criar um novo user
+    CreateUser:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "user de limpeza"
+        descricao:
+          type: string
+          example: "user de limpeza profissional"
+        categoria:
+          type: string
+          example: "Limpeza"
+        enabled:
+          type: boolean
+          example: true
+
+    # Schema genérico de sucesso
+    ResponseSuccess:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "user criado com sucesso"
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/User"
+
+    # Schema genérico de erro
+    ResponseError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Erro na requisição"
+        data:
+          type: object
+          properties:
+            nome:
+              type: string
+              example: null

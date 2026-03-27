@@ -1,0 +1,85 @@
+# Schema/prestador.yaml
+
+components:
+  schemas:
+
+    # Schema principal de prestador
+    prestador:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 122f31ae-418c-4e3b-9ba5-2d3cb8cdaffd
+        nif:
+          type: number
+          example: "prestador de limpeza"
+        profissao:
+          type: string
+          example: "prestador de Carpintaria profissional para residências e empresas."
+        taxa_urgencia:
+          type: number
+          example: 0,2
+        minimo_desconto:
+          type: number
+          example: 1000
+        percentagem_desconto:
+          type: number
+          example: 0,1
+        disponivel:
+          type: number
+          example: 1
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+
+    # Schema para criar um novo prestador
+    CreatePrestador:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "prestador de limpeza"
+        descricao:
+          type: string
+          example: "prestador de limpeza profissional"
+        categoria:
+          type: string
+          example: "Limpeza"
+        enabled:
+          type: boolean
+          example: true
+
+    # Schema genérico de sucesso
+    ResponseSuccess:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "prestador criado com sucesso"
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/prestador"
+
+    # Schema genérico de erro
+    ResponseError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Erro na requisição"
+        data:
+          type: object
+          properties:
+            nome:
+              type: string
+              example: null
