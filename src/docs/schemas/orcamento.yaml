@@ -1,10 +1,8 @@
-# Schema/orcamento.yaml
-
 components:
   schemas:
 
-    # Schema principal de orcamento
-    orcamento:
+    # Schema principal
+    Orcamento:
       type: object
       properties:
         id:
@@ -12,10 +10,10 @@ components:
           example: 1
         nome:
           type: string
-          example: "orcamento de limpeza"
+          example: "Orçamento de limpeza"
         descricao:
           type: string
-          example: "orcamento de limpeza profissional para residências e empresas."
+          example: "Orçamento de limpeza profissional para residências e empresas"
         categoria:
           type: string
           example: "Limpeza"
@@ -31,16 +29,22 @@ components:
           format: date-time
           example: "2022-02-02T00:00:00Z"
 
-    # Schema para criar um novo orcamento
+      required:
+        - id
+        - nome
+        - categoria
+        - enabled
+
+    # Schema para criação
     CreateOrcamento:
       type: object
       properties:
         nome:
           type: string
-          example: "orcamento de limpeza"
+          example: "Orçamento de limpeza"
         descricao:
           type: string
-          example: "orcamento de limpeza profissional"
+          example: "Orçamento de limpeza profissional"
         categoria:
           type: string
           example: "Limpeza"
@@ -48,29 +52,33 @@ components:
           type: boolean
           example: true
 
-    # Schema genérico de sucesso
+      required:
+        - nome
+        - categoria
+
+    # Response genérico de sucesso
     ResponseSuccess:
       type: object
       properties:
         message:
           type: string
-          example: "orcamento criado com sucesso"
+          example: "Operação realizada com sucesso"
         status:
           type: boolean
           example: true
         data:
-          $ref: "#/components/schemas/orcamento"
+          type: object
 
-    # Schema genérico de erro
+    # Response genérico de erro
     ResponseError:
       type: object
       properties:
         message:
           type: string
           example: "Erro na requisição"
+        status:
+          type: boolean
+          example: false
         data:
           type: object
-          properties:
-            nome:
-              type: string
-              example: null
+          null: true

@@ -1,22 +1,20 @@
-# paths/prestador.yaml
-
 paths:
 
   /prestador:
     get:
       summary: Listar todos os prestadores
       tags:
-        -Prestador
+        - Prestador
       description: Retorna uma lista de todos os prestadores disponíveis
       responses:
         "200":
-          description: Lista de prestador
+          description: Lista de prestadores
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/prestador"
+                  $ref: "#/components/schemas/Prestador"
         "404":
           description: Nenhum prestador encontrado
           content:
@@ -25,10 +23,9 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
 
   /prestador/create:
-    post:
       summary: Criar um novo prestador
       tags:
-        -Prestador
+        - Prestador
       description: Cria um novo prestador
       requestBody:
         required: true
@@ -38,7 +35,7 @@ paths:
               $ref: "#/components/schemas/CreatePrestador"
       responses:
         "200":
-          description: prestador criado com sucesso
+          description: Prestador criado com sucesso
           content:
             application/json:
               schema:
@@ -54,7 +51,7 @@ paths:
     get:
       summary: Buscar um prestador por ID
       tags:
-        -Prestador
+        - Prestador
       description: Retorna um prestador específico pelo ID
       parameters:
         - name: id
@@ -66,29 +63,28 @@ paths:
             example: 1
       responses:
         "200":
-          description: prestador encontrado
+          description: Prestador encontrado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseSuccess"
+                $ref: "#/components/schemas/Prestador"
         "404":
-          description: prestador não encontrado
+          description: Prestador não encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /prestador/update/{id}:
     put:
       summary: Atualizar um prestador
       tags:
-        -Prestador
+        - Prestador
       description: Atualiza um prestador pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do prestador a ser atualizado
+          description: ID do prestador
           schema:
             type: integer
             example: 1
@@ -100,41 +96,40 @@ paths:
               $ref: "#/components/schemas/CreatePrestador"
       responses:
         "200":
-          description: prestador atualizado com sucesso
+          description: Prestador atualizado com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseSuccess"
         "404":
-          description: prestador não encontrado
+          description: Prestador não encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /prestador/delete/{id}:
     delete:
       summary: Apagar um prestador
       tags:
-        -Prestador
-      description: Apaga um prestador específico pelo ID
+        - Prestador
+      description: Apaga um prestador pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do prestador a ser apagado
+          description: ID do prestador
           schema:
             type: integer
             example: 1
       responses:
         "200":
-          description: prestador apagado com sucesso
+          description: Prestador apagado com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseSuccess"
         "404":
-          description: prestador não encontrado
+          description: Prestador não encontrado
           content:
             application/json:
               schema:

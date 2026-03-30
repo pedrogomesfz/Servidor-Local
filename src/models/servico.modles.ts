@@ -1,6 +1,6 @@
 
 import db from "../lib/db.js";
-import type { ServiceDBType } from "../utils/types.js";
+import type { ServiceDBType, UserType } from "../utils/types.js";
 
 export const ServiceModel = {
     async create(newService: ServiceDBType) {
@@ -57,6 +57,8 @@ export const ServiceModel = {
             return null
         }
     },
+
+    
 
     async update(id: string, servicoAtualizado: ServiceDBType) {
         try {

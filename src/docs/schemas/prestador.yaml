@@ -1,85 +1,121 @@
-# Schema/prestador.yaml
-
 components:
   schemas:
 
-    # Schema principal de prestador
-    prestador:
+    # Schema principal
+    Prestador:
       type: object
       properties:
         id:
-          type: integer
-          example: 122f31ae-418c-4e3b-9ba5-2d3cb8cdaffd
+          type: string
+          format: uuid
+          example: "122f31ae-418c-4e3b-9ba5-2d3cb8cdaffd"
+
         nif:
-          type: number
-          example: "prestador de limpeza"
+          type: string
+          example: "123456789"
+
         profissao:
           type: string
-          example: "prestador de Carpintaria profissional para residências e empresas."
+          example: "Carpintaria profissional"
+
         taxa_urgencia:
           type: number
-          example: 0,2
+          format: float
+          example: 0.2
+
         minimo_desconto:
           type: number
           example: 1000
+
         percentagem_desconto:
           type: number
-          example: 0,1
+          format: float
+          example: 0.1
+
         disponivel:
-          type: number
-          example: 1
+          type: boolean
+          example: true
+
         enabled:
           type: boolean
           example: true
+
         created_at:
           type: string
           format: date-time
           example: "2022-02-02T00:00:00Z"
+
         updated_at:
           type: string
           format: date-time
           example: "2022-02-02T00:00:00Z"
 
-    # Schema para criar um novo prestador
+      required:
+        - id
+        - nif
+        - profissao
+        - disponivel
+        - enabled
+
+    # Schema para criação
     CreatePrestador:
       type: object
       properties:
-        nome:
+        nif:
           type: string
-          example: "prestador de limpeza"
-        descricao:
+          example: "123456789"
+
+        profissao:
           type: string
-          example: "prestador de limpeza profissional"
-        categoria:
-          type: string
-          example: "Limpeza"
+          example: "Carpintaria"
+
+        taxa_urgencia:
+          type: number
+          example: 0.2
+
+        minimo_desconto:
+          type: number
+          example: 1000
+
+        percentagem_desconto:
+          type: number
+          example: 0.1
+
+        disponivel:
+          type: boolean
+          example: true
+
         enabled:
           type: boolean
           example: true
 
-    # Schema genérico de sucesso
+      required:
+        - nif
+        - profissao
+
+    # Response genérico
     ResponseSuccess:
       type: object
       properties:
         message:
           type: string
-          example: "prestador criado com sucesso"
+          example: "Operação realizada com sucesso"
         status:
           type: boolean
           example: true
         data:
-          $ref: "#/components/schemas/prestador"
+          type: object
 
-    # Schema genérico de erro
+    # Response de erro
     ResponseError:
       type: object
       properties:
         message:
           type: string
           example: "Erro na requisição"
+        status:
+          type: boolean
+          example: false
         data:
           type: object
-          properties:
-            nome:
-              type: string
-              example: null
+          null: true

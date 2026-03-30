@@ -1,43 +1,41 @@
-# paths/orcamento.yaml
-
 paths:
+
   /orcamento:
     get:
-      summary: Listar todos os orcamentos
+      summary: Listar todos os orçamentos
       tags:
-        -Orcamento
-      description: Retorna uma lista de todos os orcamentos disponíveis
+        - Orcamento
+      description: Retorna uma lista de todos os orçamentos disponíveis
       responses:
         "200":
-          description: Lista de orcamentos
+          description: Lista de orçamentos
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/orcamento"
+                  $ref: "#/components/schemas/Orcamento"
         "404":
-          description: Nenhum orcamento encontrado
+          description: Nenhum orçamento encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /orcamento/create:
     post:
-      summary: Criar um novo orcamento
+      summary: Criar um novo orçamento
       tags:
-        -Orcamento
-      description: Cria um novo orcamento
+        - Orcamento
+      description: Cria um novo orçamento
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Createorcamento"
+              $ref: "#/components/schemas/CreateOrcamento"
       responses:
         "200":
-          description: orcamento criado com sucesso
+          description: Orçamento criado com sucesso
           content:
             application/json:
               schema:
@@ -49,45 +47,44 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /orcamento/get-by-id/{id}:
+  /orcamento/{id}:
     get:
-      summary: Buscar um orcamento por ID
+      summary: Buscar um orçamento por ID
       tags:
-        -Orcamento
-      description: Retorna um orcamento específico pelo ID
+        - Orcamento
+      description: Retorna um orçamento específico pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do orcamento
+          description: ID do orçamento
           schema:
             type: integer
             example: 1
       responses:
         "200":
-          description: orcamento encontrado
+          description: Orçamento encontrado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseSuccess"
+                $ref: "#/components/schemas/Orcamento"
         "404":
-          description: orcamento não encontrado
+          description: Orçamento não encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /orcamento/update/{id}:
     put:
-      summary: Atualizar um orcamento
+      summary: Atualizar um orçamento
       tags:
-        -Orcamento
-      description: Atualiza um orcamento pelo ID
+        - Orcamento
+      description: Atualiza um orçamento pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do orcamento a ser atualizado
+          description: ID do orçamento
           schema:
             type: integer
             example: 1
@@ -96,44 +93,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Createorcamento"
+              $ref: "#/components/schemas/CreateOrcamento"
       responses:
         "200":
-          description: orcamento atualizado com sucesso
+          description: Orçamento atualizado com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseSuccess"
         "404":
-          description: orcamento não encontrado
+          description: Orçamento não encontrado
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /orcamento/delete/{id}:
     delete:
-      summary: Apagar um orcamento
+      summary: Apagar um orçamento
       tags:
-        -Orcamento
-      description: Apaga um orcamento específico pelo ID
+        - Orcamento
+      description: Apaga um orçamento pelo ID
       parameters:
         - name: id
           in: path
           required: true
-          description: ID do orcamento a ser apagado
+          description: ID do orçamento
           schema:
             type: integer
             example: 1
       responses:
         "200":
-          description: orcamento apagado com sucesso
+          description: Orçamento apagado com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseSuccess"
         "404":
-          description: orcamento não encontrado
+          description: Orçamento não encontrado
           content:
             application/json:
               schema:

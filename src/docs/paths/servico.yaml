@@ -6,7 +6,7 @@ paths:
     get:
       summary: Listar todos os serviços
       tags:
-        -Servico
+        - Servico
       description: Retorna uma lista de todos os serviços disponíveis
       responses:
         "200":
@@ -28,7 +28,7 @@ paths:
     post:
       summary: Criar um novo serviço
       tags:
-        -Servico
+        - Servico
       description: Cria um novo serviço
       requestBody:
         required: true
@@ -54,7 +54,7 @@ paths:
     get:
       summary: Buscar um serviço por ID
       tags:
-        -Servico
+        - Servico
       description: Retorna um serviço específico pelo ID
       parameters:
         - name: id
@@ -82,7 +82,7 @@ paths:
     put:
       summary: Atualizar um serviço
       tags:
-        -Servico
+        - Servico
       description: Atualiza um serviço pelo ID
       parameters:
         - name: id
@@ -116,7 +116,7 @@ paths:
     delete:
       summary: Apagar um serviço
       tags:
-        -Servico
+        - Servico
       description: Apaga um serviço específico pelo ID
       parameters:
         - name: id

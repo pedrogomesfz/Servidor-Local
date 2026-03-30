@@ -1,9 +1,12 @@
 // import { assServicoToDB } from "../models/servico.modedel.js"
 import type { get } from "node:http"
 import { UserModel } from "../models/user.models.js"
-import type { ServiceDBType, UserDBType } from "../utils/types.js"
+import type { ServiceDBType, UserDBType, UserType } from "../utils/types.js"
 import type { Request, Response } from "express"
-import { updateUser } from "../users.js"
+import { getUsersById, updateUser } from "../users.js"
+import db from "../lib/db.js"
+import { comparePassword } from "../utils/password.js"
+import  jwt  from "jsonwebtoken"
 
 
 export const UserController = {
@@ -75,6 +78,8 @@ export const UserController = {
         })
     },
 
+    
+
     async update(req: Request, res: Response) {
         const { id } = req.params
 
@@ -113,6 +118,47 @@ export const UserController = {
             data: null
         })
     },
+
+    async login(req: Request, res: Response){
+        const {email, password } = req.body
+
+        if (!email || !password ){
+            return res.status(400).json({
+                status: "error",
+                message: "Credeniais invalidos",
+                data: null
+            })
+        }
+
+        const userData = await UserModel.getByEmail(email as string)
+        if(!userData){
+            return res.status(400).json({
+                status: "error",
+                message: "Não existe nenhuma conta com esse email",
+                data: null
+            })
+        }
+
+        const isPasswordValid = await comparePassword(password, userData.password)
+        if (!isPasswordValid){
+            return res.status(401).json({
+                status:"error",
+                message:"Credenciais invalidos",
+                data: null
+            })
+        }
+
+        const payload = {
+            id: userData.id,
+            email: userData.email,
+            nome: userData.nome
+        }
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET as string, {expiresIn: "1h"})
+    },
+
+    
+
 
     async delete(req: Request, res: Response) {
         const { id } = req.params

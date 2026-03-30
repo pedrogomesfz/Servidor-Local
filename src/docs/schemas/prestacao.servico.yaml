@@ -1,10 +1,8 @@
-# Schema/prestacao.servico.yaml
-
 components:
   schemas:
 
-    # Schema principal de prestacao.servico
-    prestacao.servico:
+    # Schema principal
+    PrestacaoServico:
       type: object
       properties:
         id:
@@ -12,10 +10,10 @@ components:
           example: 1
         nome:
           type: string
-          example: "prestacao.servico de limpeza"
+          example: "Serviço de limpeza"
         descricao:
           type: string
-          example: "prestacao.servico de limpeza profissional para residências e empresas."
+          example: "Serviço de limpeza profissional para residências e empresas"
         categoria:
           type: string
           example: "Limpeza"
@@ -31,16 +29,22 @@ components:
           format: date-time
           example: "2022-02-02T00:00:00Z"
 
-    # Schema para criar um novo prestacao.servico
-    CreatePrestacao.servico:
+      required:
+        - id
+        - nome
+        - categoria
+        - enabled
+
+    # Schema para criação
+    CreatePrestacaoServico:
       type: object
       properties:
         nome:
           type: string
-          example: "prestacao.servico de limpeza"
+          example: "Serviço de limpeza"
         descricao:
           type: string
-          example: "prestacao.servico de limpeza profissional"
+          example: "Serviço de limpeza profissional"
         categoria:
           type: string
           example: "Limpeza"
@@ -48,29 +52,33 @@ components:
           type: boolean
           example: true
 
-    # Schema genérico de sucesso
+      required:
+        - nome
+        - categoria
+
+    # Resposta de sucesso
     ResponseSuccess:
       type: object
       properties:
         message:
           type: string
-          example: "prestacao.servico criado com sucesso"
+          example: "Operação realizada com sucesso"
         status:
           type: boolean
           example: true
         data:
-          $ref: "#/components/schemas/prestacao.servico"
+          type: object   # mais genérico (pode ser qualquer coisa)
 
-    # Schema genérico de erro
+    # Resposta de erro
     ResponseError:
       type: object
       properties:
         message:
           type: string
           example: "Erro na requisição"
+        status:
+          type: boolean
+          example: false
         data:
           type: object
-          properties:
-            nome:
-              type: string
-              example: null
+          null: true
