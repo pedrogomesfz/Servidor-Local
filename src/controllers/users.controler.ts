@@ -7,6 +7,9 @@ import { getUsersById, updateUser } from "../users.js"
 import db from "../lib/db.js"
 import { comparePassword } from "../utils/password.js"
 import  jwt  from "jsonwebtoken"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 
 export const UserController = {
@@ -155,6 +158,15 @@ export const UserController = {
         }
 
         const token = jwt.sign(payload, process.env.JWT_SECRET as string, {expiresIn: "1h"})
+
+        return res.status(200).json({
+            status: "success",
+            message: "Login realizado com sucesso",
+            data: {
+                token,
+                user: payload
+            }
+        })
     },
 
     

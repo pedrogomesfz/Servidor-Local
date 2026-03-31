@@ -138,3 +138,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  
+  /user/login:
+    post:
+      summary: Login de user
+      tags:
+        - User
+      description: "Faz login de um usuário"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginUser"
+      responses:
+      "404":
+          description: user não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+      "400":
+          description: "Erro ao logar o user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
