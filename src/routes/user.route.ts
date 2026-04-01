@@ -25,4 +25,6 @@ router.put(UseRoute.update, AuthMiddleware, UserController.update)
 
 router.delete(UseRoute.delete, AuthMiddleware, UserController.delete)
 
+router.post(UseRoute.login, UserController.login)
+
 export { router }

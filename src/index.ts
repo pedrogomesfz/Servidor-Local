@@ -14,7 +14,7 @@ app.use(express.json())
 app.use("/service",serviceRouter)
 app.use("/orcamento",orcamentoRouter)
 app.use("/prestador",prestadorRouter)
-app.use("/users",userRouter)
+app.use("/user",userRouter)
 app.use("/proposta",propostaRouter)
 app.use("/prestacao",prestacaoRouter)
 

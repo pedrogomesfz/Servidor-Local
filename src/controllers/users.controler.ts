@@ -156,7 +156,7 @@ export const UserController = {
             email: userData.email,
             nome: userData.nome
         }
-
+        console.log("JWT_SECRET", process.env.JWT_SECRET)
         const token = jwt.sign(payload, process.env.JWT_SECRET as string, {expiresIn: "1h"})
 
         return res.status(200).json({
