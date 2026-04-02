@@ -164,3 +164,71 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
+  /user/update-password/{id}:
+    put:
+      summary: Atualizar password de um user
+      tags:
+        - User
+      description: Atualiza a password de um user pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do user a ser atualizado
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePassword"
+      responses:
+        "200":
+          description: password atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "404":
+          description: user não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+              
+  /user/rest-password/{id}:
+    put:
+      summary: Reset password de um user
+      tags:
+        - User
+      description: Reset password de um user pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do user a ser resetado
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePassword"
+      responses:
+        "200":
+          description: password resetada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "404":
+          description: user não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"

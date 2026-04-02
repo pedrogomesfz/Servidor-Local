@@ -99,5 +99,10 @@ ALTER TABLE tbl_prestacao_servico
 	FOREIGN KEY (id_servico)
     REFERENCES tbl_servico(id)
     ;
+    ALTER TABLE tbl_prestacao_servico
+		ADD COLUMN update_at DATETIME NOT NULL after created_at
+        ADD COLUMN enabled BOOLEAN 
+        ADD  COLUMN estado ENUM('pendente' , 'enprogresso', 'cancelamento', 'INALIZADO') NOT NULL before enabled
+    ;
     
     

@@ -1,6 +1,8 @@
 import type { Request, Response } from "express"
 import type { PrestacaoServicoDBType } from "../utils/types.js"
 import { PrestacaoServicoModel } from "../models/prestacao.servico.js"
+import { PrestadorModel } from '../models/prestador.models.js';
+import { OrcamentoModel } from '../models/orcamento.models.js';
 
 export const PrestacaoServicoController = {
     async create(req: Request, res: Response) {
@@ -142,4 +144,6 @@ export const PrestacaoServicoController = {
             data: deletePrestacaoServicoResponse
         })
     }
+
+    
 }

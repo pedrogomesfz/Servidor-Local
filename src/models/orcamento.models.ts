@@ -31,7 +31,6 @@ export const OrcamentoModel = {
 
     async getAll() {
         const [rows] = await db.execute("SELECT * FROM tbl_orcamentos")
-
         return rows
     },
 

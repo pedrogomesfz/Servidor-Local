@@ -51,6 +51,28 @@ components:
           type: boolean
           example: true
 
+    loginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "user@examplr.com"
+        password:
+          type: string
+          example: "pedrogomes123"
+    UpdatePassword:
+      type: object
+      properties:
+        password:
+          type: string
+          example: "novaSenha123"
+    RestPassword:
+      type: object
+      properties:
+        password:
+          type: string
+          example: "novaSenha123"
+
     # Schema genérico de sucesso
     ResponseSuccess:
       type: object
@@ -63,16 +85,6 @@ components:
           example: true
         data:
           $ref: "#/components/schemas/User"
-
-    loginUser:
-      type: object
-      properties:
-        email:
-          type: string
-          example: "user@examplr.com"
-        password:
-          type: string
-          example: "pedrogomes123"
 
     # Schema genérico de erro
     ResponseError:
@@ -87,3 +99,9 @@ components:
             nome:
               type: string
               example: null
+
+    
+    
+          
+     
+          

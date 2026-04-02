@@ -13,15 +13,14 @@ export default function AuthMiddleware(req: Request, res: Response, next: NextFu
 
     try{
         const decodedToken = jwt.verify(token as string, process.env.JWT_SECRET as string)
-
         next()
-
     }catch(error){
         return res.status(401).json({ message: "Token invalido" })
     }
 }
 
-/*
+
+
 
 req: {
     headrs: {
@@ -33,4 +32,3 @@ req: {
         nome.split(" ")
 }
 
-*/

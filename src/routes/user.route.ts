@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UserController } from "../controllers/users.controler.js";
 import AuthMiddleware from "../security/auth.middleware.js";
 
+
 const UseRoute = {
     create: "/create",
     getAll: "/",
@@ -9,7 +10,9 @@ const UseRoute = {
     update: "/:id",
     delete: "/:id",
     restPassword: "/rest-password",
-    login: "/login"
+    login: "/login",
+    updatePassword: "/update-password",
+    resetPassword: "/reset-password"
 }
 
 

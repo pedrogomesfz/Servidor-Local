@@ -197,7 +197,68 @@ export const UserController = {
             message: "Utilizador apagado com success",
             data: deleteUserResponse
         })
+    },
+
+
+    //funcao para atualizar password
+    async updatePassword(req: Request, res: Response) {
+        const { id } = req.params
+        const { password } = req.body
+
+        if (!id || !password) {
+            return res.status(400).json({
+                status: "error",
+                message: "Dados de password invalidos",
+                data: null
+            })
+        }
+
+        const updatedUserResponse = await UserModel.updatePassword(id as string, password as string)
+        if (!updatedUserResponse) {
+            return res.status(400).json({
+                status: "error",
+                message: "Erro ao atualizar password",
+                data: null
+            })
+        }
+
+        return res.status(200).json({
+            status: "success",
+            message: "Password atualizada com sucesso",
+            data: null
+        })
+    },
+
+    async restPassword(req: Request, res: Response) {
+        const { id } = req.params
+        const { password } = req.body
+
+        if (!id || !password) {
+            return res.status(400).json({
+                status: "error",
+                message: "Dados de password invalidos",
+                data: null
+            })
+        }
+
+        const updatedUserResponse = await UserModel.resetPassword(id as string, password as string)
+        if (!updatedUserResponse) {
+            return res.status(400).json({
+                status: "error",
+                message: "Erro ao atualizar password",
+                data: null
+            })
+        }
+
+        return res.status(200).json({
+            status: "success",
+            message: "Password atualizada com sucesso",
+            data: null
+        })
     }
+
+    
+
 }
 
 export { UserModel }

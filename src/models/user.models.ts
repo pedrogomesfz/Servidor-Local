@@ -139,5 +139,54 @@ export const UserModel = {
     }
     },
 
+    async updatePassword(id: string, password: string) {
+        try {
+            const query = `UPDATE tbl_utilizadores
+                        SET
+                            password=?,
+                            updated_at=?
+                        WHERE
+                            id=?;`
+
+            const values = [
+                password,
+                new Date(),
+                id
+            ]
+
+            const rows: any = await db.execute(query, values)
+
+            return rows[0].affectedRows === 1
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    },
+
+    async resetPassword(id: string, password: string) {
+        try {
+            const query = `UPDATE tbl_utilizadores
+                        SET
+                            password=?,
+                            updated_at=?
+                        WHERE
+                            id=?;`
+
+            const values = [
+                password,
+                new Date(),
+                id
+            ]
+
+            const rows: any = await db.execute(query, values)
+
+            return rows[0].affectedRows === 1
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    },
+
+    
     
 }

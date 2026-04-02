@@ -8,4 +8,7 @@ export async function comparePassword(passwordEmTexto:string, passwordHash: stri
     return await compare(passwordEmTexto, passwordHash)
 }
 
+export async function updatePassword(passwordEmTexto:string) {
+    return await hash(passwordEmTexto, 8)
+}
 //regex para validar password
