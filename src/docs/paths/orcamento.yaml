@@ -137,3 +137,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
+  /orcamento/:id/calcular:
+    put:
+      summary: Calcular valor total do orçamento
+      tags:
+        - orcamento
+      description: Calcula o valor total do orçamento com base nos serviços e itens associados
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do orçamento a ser calculado
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Valor total calculado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "404":
+          description: Orçamento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"

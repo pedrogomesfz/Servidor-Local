@@ -13,4 +13,6 @@ router.put("/:id", PropostaController.update)
 
 router.delete("/:id", PropostaController.delete)
 
+router.put("/aceitar/:id", PropostaController.AceitarProposta)
+
 export { router }

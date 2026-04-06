@@ -1,56 +1,56 @@
 import type { Request, Response } from "express"
 import type { OrcamentoDBType } from "../utils/types.js"
-import { PrestacaoServicoModel } from "../models/prestacao.servico.js"
-import { OrcamentoModel } from "../models/orcamento.models.js"
+import {  OrcamentoModel } from "../models/orcamento.models.js"
+import type { create } from "node:domain"
 
 export const OrcamentoController = {
     async create(req: Request, res: Response) {
-        const Orcamento: OrcamentoDBType = req.body
+        const orcamentoDados: OrcamentoDBType = req.body
 
-        if (!Orcamento) {
+        if (!orcamentoDados) {
             return res.status(400).json({
-                status: "error",
-                message: "Dados de Orcamento de servico invalidos",
-                data: null
+                status: "erro",
+                mensagem: "Dados de orçamento de serviço inválidos",
+                dados: null
             })
         }
 
-        const createOrcamentoResponse = await OrcamentoModel.create(Orcamento)
+        const respostaCriacao = await OrcamentoModel.create(orcamentoDados)
 
-        if (!createOrcamentoResponse) {
+        if (!respostaCriacao) {
             return res.status(500).json({
-                status: "error",
-                message: "Erro ao criar orcamento de servico",
-                data: null
+                status: "erro",
+                mensagem: "Erro ao criar orçamento de serviço",
+                dados: null
             })
         }
 
         return res.status(201).json({
-            status: "success",
-            message: "Orcamento de servico criada com sucesso",
-            data: createOrcamentoResponse
+            status: "sucesso",
+            mensagem: "Orçamento de serviço criado com sucesso",
+            dados: respostaCriacao
         })
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllOrcamentoResponse = await OrcamentoModel.getAll()
+        const respostaObterTodos = await OrcamentoModel.getAll()
 
-        if (!getAllOrcamentoResponse) {
+        if (!respostaObterTodos) {
             return res.status(500).json({
-                status: "error",
-                message: "Erro ao buscar orcamentos de servico",
-                data: null
+                status: "erro",
+                mensagem: "Erro ao buscar orçamentos de serviço",
+                dados: null
             })
         }
 
         return res.status(200).json({
-            status: "success",
-            message: "Orcamentos de servico buscadas com sucesso",
-            data: getAllOrcamentoResponse
+            status: "sucesso",
+            mensagem: "Orçamentos de serviço buscados com sucesso",
+            dados: respostaObterTodos
         })
     },
 
-    async get(req: Request, res: Response) {
+    async getById(req: Request, res: Response) {
         const { id } = req.params
 
         if (!id) {
@@ -61,7 +61,7 @@ export const OrcamentoController = {
             })
         }
 
-        const getOrcamentoByIdResponse = await OrcamentoModel.get(id as string)
+        const getOrcamentoByIdResponse = await OrcamentoModel.getById(id as string)
 
         if (!getOrcamentoByIdResponse) {
             return res.status(404).json({
@@ -142,5 +142,32 @@ export const OrcamentoController = {
             message: "Orcamento de servico apagada com sucesso",
             data: deleteOrcamentoResponse
         })
+    },
+
+
+    async calcularValorTotal(req: Request, res: Response) {
+        const { id } = req.params
+        if (!id) {
+            return res.status(400).json({
+                status: "error",
+                message: "ID obrigatorio",
+                data: null
+            })
+        }
+        const calcularValorTotalResponse = await OrcamentoModel.OrcamentoModelValorTotal(id as string)
+
+        if (!calcularValorTotalResponse) {
+            return res.status(400).json({
+                status: "error",
+                message: "Erro ao calcular valor total do orcamento de servico",
+                data: null
+            })
+        }
+        return res.status(200).json({
+            status: "success",
+            message: "Valor total do orcamento de servico calculado com sucesso",
+            data: calcularValorTotalResponse
+        })
     }
+
 }

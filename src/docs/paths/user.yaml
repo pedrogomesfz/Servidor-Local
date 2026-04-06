@@ -177,7 +177,7 @@ paths:
           required: true
           description: ID do user a ser atualizado
           schema:
-            type: integer
+            type: string
             example: 1
       requestBody:
         required: true
@@ -199,7 +199,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
               
-  /user/rest-password/{id}:
+  /user/reset-password/{id}:
     put:
       summary: Reset password de um user
       tags:
@@ -211,7 +211,7 @@ paths:
           required: true
           description: ID do user a ser resetado
           schema:
-            type: integer
+            type: string
             example: 1
       requestBody:
         required: true

@@ -146,3 +146,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /proposta/aceitar/{id}:
+    put:
+      summary: Aceitar uma proposta
+    
+      tags:
+        - Proposta
+      description: Aceita uma proposta específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do proposta a ser aceito
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: proposta aceita com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "404":
+          description: proposta não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"

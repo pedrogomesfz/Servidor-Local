@@ -82,3 +82,19 @@ components:
         data:
           type: object
           null: true
+
+    # shema para calcular valor total do orçamento 
+    CalcularValorTotal:
+      type: object
+      properties:
+        valor_total:
+          type: number
+          example: 150.00
+        message:
+          type: string
+          example: "Valor total calculado com sucesso"
+        status:
+          type: boolean
+          example: true
+        data:
+          type: object 

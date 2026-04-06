@@ -1,4 +1,3 @@
-
 import { create } from "node:domain";
 import db from "../lib/db.js";
 
@@ -168,7 +167,7 @@ export const UserModel = {
             const query = `UPDATE tbl_utilizadores
                         SET
                             password=?,
-                            updated_at=?
+                            update_at=?
                         WHERE
                             id=?;`
 
@@ -185,8 +184,5 @@ export const UserModel = {
             console.log(error)
             return null
         }
-    },
-
-    
-    
+    }
 }

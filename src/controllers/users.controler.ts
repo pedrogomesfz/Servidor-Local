@@ -229,7 +229,7 @@ export const UserController = {
         })
     },
 
-    async restPassword(req: Request, res: Response) {
+    async resetPassword(req: Request, res: Response) {
         const { id } = req.params
         const { password } = req.body
 
@@ -254,8 +254,16 @@ export const UserController = {
             status: "success",
             message: "Password atualizada com sucesso",
             data: null
-        })
-    }
+        }),
+
+        console.log("Password resetada com sucesso")
+
+    },
+
+    
+
+
+
 
     
 

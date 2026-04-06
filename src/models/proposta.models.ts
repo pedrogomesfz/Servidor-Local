@@ -90,6 +90,33 @@ export const PropostaModel = {
             return null
         }
     },
+    async PropostaAceita(id: string, estado: string) {
+        try {
+            const [rows] = await db.execute (
+                `UPDATE tbl_proposta
+                        SET
+                            estado="Regeitada",
+                            updated_at=?`,
+                            [
+                new Date()
+                
+            ])
+            const [rowsAceitada]: any = await db.execute (
+                `UPDATE tbl_proposta
+                        SET
+                            estado="Aceitada",
+                            updated_at=?
+                            tbl_proposta.id_prestacao_servico.estado =?
+                        WHERE id=?`,
+                            [new Date(), id])
+
+
+            return rowsAceitada[0].affectedRows === 1
+        } catch (error) {
+            console.log(error)
+            return null
+        }
+    },
 
     async delete(id: string) {
         try {

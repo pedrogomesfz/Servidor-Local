@@ -135,5 +135,44 @@ export const PropostaController = {
             message: "Proposta apagada com success",
             data: deletePropostaControllerResponse
         })
-    }
+    },
+
+    async AceitarProposta(req: Request, res: Response) {
+        const { id } = req.params
+
+        const RespostaController =  req.body
+
+        if (!id) {
+            return res.status(400).json({
+                status: "error",
+                message: "ID obrigatorio",
+                data: null
+            })
+        }
+
+        if (!RespostaController) {
+            return res.status(400).json({
+                status: "error",
+                message: "Dados da proposta invalidos",
+                data: null
+            })
+        }
+
+        const RespostaControllerResponse = await PropostaModel.PropostaAceita(id as string, RespostaController)
+
+        if (!RespostaControllerResponse) {
+            return res.status(400).json({
+                status: "error",
+                message: "Error ao atualizar proposta",
+                data: null
+            })
+        }
+
+
+        return res.status(400).json({
+            status: "success",
+            message: "prestador atualizado com sucesso",
+            data: null
+        })
+    },
 }

@@ -74,3 +74,23 @@ components:
             nome:
               type: string
               example: null
+
+    # schema para aceitar proposta
+    AceitarProposta:
+      type: object
+      properties:
+        estado:
+          type: string
+          example: "aceita"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2022-02-02T00:00:00Z"
+        message:
+          type: string
+          example: "proposta aceita com sucesso"
+        status:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/proposta"
