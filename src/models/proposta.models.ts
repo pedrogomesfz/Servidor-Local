@@ -1,4 +1,5 @@
 
+import type { RowDataPacket } from "mysql2";
 import db from "../lib/db.js";
 import type { PropostaDBType } from "../utils/types.js";
 
@@ -83,7 +84,7 @@ export const PropostaModel = {
             ]
 
             const rows: any = await db.execute(query, values)
-
+            
             return rows[0].affectedRows === 1
         } catch (error) {
             console.log(error)
@@ -118,6 +119,27 @@ export const PropostaModel = {
         }
     },
 
+    async getByPrestacaoServico(idPresatacaoServico: string): Promise<PropostaDBType[] | null> {
+        try {
+            const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(
+                `SELECT * FROM tbl_propostas
+                WHERE tbl_propostas.id_prestacao_servico = ?`,
+
+                [idPresatacaoServico]
+            )
+
+            if (Array.isArray(rows )&& rows.length === 0) return null
+            return Array.isArray(rows) ? rows : null
+        }catch (err){
+            console.log(err)
+            return null
+        }
+    },
+
+
+
+
+
     async delete(id: string) {
         try {
         const query = `DELETE FROM tbl_proposta WHERE id =?`
@@ -132,7 +154,7 @@ export const PropostaModel = {
         console.log(error)
         return null
     }
-    },
+    }
 
     
 }

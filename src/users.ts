@@ -53,7 +53,6 @@ user: UserType ) {
         console.log(error)
         return null
     }
-
 }
 
 export async function updateUser(id: string, updatedUser: UserDBType) {

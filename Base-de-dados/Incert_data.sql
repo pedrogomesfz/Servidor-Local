@@ -48,7 +48,7 @@ INSERT INTO tbl_utilizadores(
         );
 	
 
-  INSERT INTO tbl_prestadores
+    INSERT INTO tbl_prestadores
     VALUE (
 		"122f31ae-418c-4e3b-9ba5-2d3cb8cdaffd",
         128883998,

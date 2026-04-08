@@ -142,6 +142,7 @@ export interface OrcamentoDBType {
 export interface PropostaDBType {
     id:string,
     id_prestacao_servico:string,
+    idPrestador:string,
     preco_hora:number,
     horas_estimadas:number,
     estado:string,
@@ -162,3 +163,17 @@ export interface PrestacaoServicoDBType {
     created_at:string
 
 }
+
+export enum EstadoProposta {
+    PENDENTE = "PENDENTE",
+    ACEITE = "ACEITE",
+    REJEITADA = "REJEITADA"
+}
+
+export enum EstadoPrestacaoServico {
+    PENDENTE = "PENDENTE",
+    EM_ANDAMENTO = "EM_ANDAMENTO",
+    CONCLUIDA = "CONCLUIDA",
+    CANCELADA = "CANCELADA"
+}
+
