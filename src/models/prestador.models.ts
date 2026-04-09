@@ -47,15 +47,16 @@ export const PrestadorModel = {
     }
 },
 
-async get(id: string) {
+async get(id: string): Promise<PrestadorDBType | null> {
     try {
-        const query = 'SELECT * FROM tbl_prestadores WHERE id = ?'
+        const [rows] = await db.execute(
+        `SELECT * FROM tbl_prestadores 
+        WHERE tbl_prestadores.id = ?`,
 
-        const value = [id]
-
-        const rows = await db.execute(query, value)
-
-        return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+        [id]
+        )
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows)  ? rows[0] as PrestadorDBType : null
 
     } catch (error) {
         console.log(error)

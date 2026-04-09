@@ -1,10 +1,10 @@
-import type { Request, Response } from "express"
-import type { OrcamentoDBType, PropostaDBType } from "../utils/types.js"
+import { response, type Request, type Response } from "express"
+import type { OrcamentoDBType, PropostaDBType, responseType, ResponseType } from "../utils/types.js"
 import { EstadoProposta } from "../utils/types.js"
 import {  OrcamentoModel } from "../models/orcamento.models.js"
 import type { create } from "node:domain"
 import { PropostaModel } from "../models/proposta.models.js"
-import { PrestacaoServicoModel, PrestacaoServicoModel } from "../models/prestacao.servico.js"
+import { PrestacaoServicoModel } from "../models/prestacao.servico.js"
 import { PrestacaoServicoController } from "./prestacao_servico.controller.js"
 import { PrestadorModel } from "../models/prestador.models.js"
 import { json } from "node:stream/consumers"
@@ -164,11 +164,12 @@ export const OrcamentoController = {
         const PrestacaoServico = await PrestacaoServicoModel.getByIdOrcamento(id as string)
 
         if (!PrestacaoServico) {
-            return res.status(404).json({
+            const response: responseType<null> = {
                 status: "error",
                 message: "Prestação de serviço não encontrada",
                 data: null
-            })
+            }
+            return res.status(404).json(response)
         }
 
 
@@ -208,9 +209,9 @@ export const OrcamentoController = {
             })
         }
 
-        const urgencyTax = prestador.taxaUrgencia
-        const minimunDiscount = prestador.minimoDesconto
-        const discountPercentage = prestador.percentagemDesconto
+        const urgencyTax = prestador.taxa_urgencia
+        const minimunDiscount = prestador.minimo_desconto
+        const discountPercentage = prestador.percentagem_desconto
 
         let subtotal = precoHora * horasEstimadas
 
@@ -218,11 +219,11 @@ export const OrcamentoController = {
             subtotal = subtotal * (1 - discountPercentage)
         }
 
-        if (PrestacaoServicoModel.urgente) {
+        if (PrestacaoServico.urgente) {
             subtotal = subtotal * (1 + urgencyTax)
         }
 
-        const updateOrcamentoResponse = await OrcamentoModel.updateBudget(id as string, subtotal)
+        const updateOrcamentoResponse = await OrcamentoModel.updateBuget(id as string, subtotal)
 
         if (!updateOrcamentoResponse) {
             return res.status(400).json({
@@ -231,13 +232,12 @@ export const OrcamentoController = {
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "sucesso",
-            message: "Orcamento calculado e atualizado com sucesso",
+        const response: responseType<OrcamentoDBType> = {
+            status: "success",
+            message: "Orcamento calculado com sucesso",
             data: updateOrcamentoResponse
-        })
-        
-
+        }
+        return res.status(200).json(response)
     },
 
 

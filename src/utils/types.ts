@@ -158,9 +158,13 @@ export interface PrestacaoServicoDBType {
     horas_estimadas:number,
     id_prestadores:string,
     id_orcamento:string,
+    id_utilizador: string,
     id_servico:string,
     preco_hora:number,
-    created_at:string
+    urgente:boolean,
+    enabled:boolean,
+    created_at:string,
+    updated_at:string
 
 }
 
@@ -177,3 +181,18 @@ export enum EstadoPrestacaoServico {
     CANCELADA = "CANCELADA"
 }
 
+export interface responseType <T> {
+    status: "success" | "error",
+    message: string,
+    data: T | null
+}
+
+export interface PrestacaoServicoDetalhoadaType {
+    id: string,
+    nome_utilizador: string,
+    email_utilizador: string,
+    nome_servico: string;
+    descricao: string ,
+    data_pedido: string,
+    urgente: boolean
+}

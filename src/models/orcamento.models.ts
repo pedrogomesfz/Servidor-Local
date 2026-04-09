@@ -108,5 +108,20 @@ export const OrcamentoModel = {
             
             return null
         }
+    },
+
+
+
+    async updateBuget(id: string, total: number){
+        try{
+            const rows : any = await db.execute(
+                `UPDATE tbl_orcamentos SET total = ?, updated_at = ? WHERE id = ?`,
+                [total, new Date(), id]
+            )
+        }
+        catch (err){
+        console.log(err)
+        return null
     }
+}
 }
