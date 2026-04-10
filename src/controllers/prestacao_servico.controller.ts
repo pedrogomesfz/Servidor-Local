@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import type { PrestacaoServicoDBType } from "../utils/types.js"
+import type { PrestacaoServicoDBType, responseType } from "../utils/types.js"
 import { PrestacaoServicoModel } from "../models/prestacao.servico.js"
 import { PrestadorModel } from '../models/prestador.models.js';
 
@@ -15,7 +15,7 @@ export const PrestacaoServicoController = {
             })
         }
 
-        const createPrestacaoServicoResponse = await PrestacaoServicoModel.create(prestacaoServico)
+        const createPrestacaoServicoResponse: PrestacaoServicoDBType | null = await PrestacaoServicoModel.create(prestacaoServico)
 
         if (!createPrestacaoServicoResponse) {
             return res.status(500).json({
@@ -24,12 +24,13 @@ export const PrestacaoServicoController = {
                 data: null
             })
         }
-
-        return res.status(201).json({
+        const response: responseType<PrestacaoServicoDBType> = {
             status: "success",
             message: "Prestacao de servico criada com sucesso",
-            data: createPrestacaoServicoResponse
-        })
+            data:createPrestacaoServicoResponse
+        }
+
+        return res.status(201).json(response)
     },
 
     async getAll(req: Request, res: Response) {
@@ -141,6 +142,33 @@ export const PrestacaoServicoController = {
             status: "success",
             message: "Prestacao de servico apagada com sucesso",
             data: deletePrestacaoServicoResponse
+        })
+    },
+
+
+    async getAllPrestacaoservicoDetalhada(req: Request, res: Response) {
+        const { limit, offset } = req.query as {limit: string , offset: string}
+
+        let LIMIT = 10 
+        let OFFSET = 10 
+
+        if ( limit && parseInt(limit) < 0) LIMIT = parseInt(limit)
+        if ( offset && parseInt(offset) < 0) OFFSET = parseInt(offset)
+        
+        const  getAllPrestacaoServicoResponse = await PrestacaoServicoModel.getAllPrestacaoServicoDetalhada(LIMIT, OFFSET)
+
+        if (!getAllPrestacaoServicoResponse){
+            return res.status(500).json({
+                status: "error",
+                message: "Erro ao buscar prestador de servico ",
+                data: null
+            })
+        }
+
+        return res.status(200).json({
+            status: "sucess",
+            message: "Prestaçoes de servico buscadas com sucesso",
+            data: getAllPrestacaoServicoResponse
         })
     }
 

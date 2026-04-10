@@ -2,32 +2,32 @@
 import { id } from "date-fns/locale";
 import db from "../lib/db.js";
 import type { PrestadorDBType } from "../utils/types.js";
+import type { RowDataPacket } from "mysql2/promise";
 
 export const PrestadorModel = {
-    async create(newPrestador: PrestadorDBType) {
+    async create(Prestador: PrestadorDBType): Promise<PrestadorDBType | null> {
         try {
-            const query = 'INSERT INTO tbl_prestadores (id, nif, profissao, taxa_urgencia, minimo_desconto, prescentagem_desconto, disponivel, enabled, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)'
-
-            const values = [
+            const [rows] = await db.execute< PrestadorDBType & RowDataPacket[] >(
+        `INSERT INTO tbl_prestadores 
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+            [
                 null,
-                newPrestador.nif,
-                newPrestador.profissao,
-                newPrestador.taxa_urgencia,
-                newPrestador.minimo_desconto,
-                newPrestador.percentagem_desconto,
-                newPrestador.disponivel,
-                newPrestador.enabled,
+                Prestador.nif,
+                Prestador.profissao,
+                Prestador.taxa_urgencia,
+                Prestador.minimo_desconto,
+                Prestador.percentagem_desconto,
+                Prestador.disponivel,
+                Prestador.enabled,
                 new Date(),
                 new Date()
             ]
+        )
+        return rows as PrestadorDBType
 
-            const rows: any = await db.execute(query, values)
-
-            return rows[0].affectedRows === 1
-
-
+        
         } catch (error) {
-            console.log(error)
+
             return null
         }
     },

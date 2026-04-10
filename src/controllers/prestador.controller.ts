@@ -1,8 +1,8 @@
 // import { assServicoToDB } from "../models/servico.modedel.js"
 import type { create } from "node:domain"
 import { PrestadorModel } from "../models/prestador.models.js"
-import type { PrestadorDBType } from "../utils/types.js"
-import type { Request, Response } from "express"
+import type { PrestadorDBType, responseType } from "../utils/types.js"
+import { response, type Request, type Response } from "express"
 
 
 export const PrestadorController = {
@@ -17,19 +17,20 @@ export const PrestadorController = {
             })
         }
 
-        const createPrestadorResponse = await PrestadorModel.create(newPrestador)
-        if (createPrestadorResponse) {
+        const createPrestadorResponse: PrestadorDBType | null = await PrestadorModel.create(newPrestador)
+        if (!createPrestadorResponse) {
             return res.status(400).json({
                 status: "error",
                 message: "Erro ao criar prestador",
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "Success",
-            message: "Prestador criado com success",
-            data: null
-        })
+        const response: responseType<PrestadorDBType> = {
+            status: "success",
+            message: "Prestador criado com sucesso",
+            data: createPrestadorResponse
+        }
+        return res.status(200).json(response)
     },
 
     async getAll(req: Request, res: Response) {

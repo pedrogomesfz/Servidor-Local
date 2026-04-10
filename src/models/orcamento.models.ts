@@ -1,12 +1,16 @@
+import type { RowDataPacket } from "mysql2/promise"
 import db from "../lib/db.js"
 import type { OrcamentoDBType } from "../utils/types.js"
 import { generateUUID } from "../utils/uuid.js"
+import { error } from "node:console"
 
 export const OrcamentoModel = {
-    async create(orcamento: OrcamentoDBType) {
+    async create(orcamento: OrcamentoDBType): Promise<OrcamentoDBType | null> {
         try {
-            const query = `INSERT INTO tbl_orcamento (id, total, id_utilizadores2, enable_, created_at, update) VALUES (?, ?, ?, ?, ?, ?)`
-            const values = [
+            const [rows] = await db.execute<OrcamentoDBType & RowDataPacket []>(
+            `INSERT INTO tbl_orcamento 
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            [
                 generateUUID(),
                 orcamento.total,
                 orcamento.id_utilizador2,
@@ -14,32 +18,30 @@ export const OrcamentoModel = {
                 new Date(),
                 new Date()
             ]
-            const [result]: any = await db.execute(query, values)
-            return result.affectedRows === 1
-        } catch (erro) {
-        
-            return null
-        }
-    },
-
-    async getAll() {
-        try {
-            const [rows]: any = await db.execute("SELECT * FROM tbl_orcamento")
-            return rows
-        } catch (error) {
+            )
+            return rows as OrcamentoDBType
             
+        } catch (erro) {
+
             return null
         }
     },
 
-    async getById(id: string) {
+    async getAll(): Promise<OrcamentoDBType[] | null> {
+        const [rows] = await db.execute< OrcamentoDBType [] & RowDataPacket []>(
+            "SELECT * FROM tbl_orcamento"
+        )
+        return rows as OrcamentoDBType[]
+    },
+
+    async get(id: string):Promise<OrcamentoDBType | null> {
         try {
-            const [rows]: any = await db.execute(
+            const [rows] = await db.execute<OrcamentoDBType & RowDataPacket []>(
                 `SELECT * FROM tbl_orcamento WHERE id = ?`,
                 [id]
             )
             if (Array.isArray(rows) && rows.length === 0) return null
-            return Array.isArray(rows) ? rows[0] : null
+            return Array.isArray(rows) ? rows[0] as OrcamentoDBType : null
         } catch (erro) {
             
             return null
@@ -61,22 +63,23 @@ export const OrcamentoModel = {
                 new Date(),
                 id
             ]
-            const [result]: any = await db.execute(query, values)
-            return result.affectedRows === 1
+            const [rows]: any = await db.execute(query, values)
+            return rows.affectedRows === 1
         } catch (erro) {
             
             return null
         }
     },
 
-    async delete(id: string) {
+    async delete(id: string): Promise<OrcamentoDBType | null> {
         try {
-            const [result]: any = await db.execute(
+            const rows: any = await db.execute< OrcamentoDBType & RowDataPacket []>(
                 `DELETE FROM tbl_orcamento WHERE id = ?`,
                 [id]
             )
-            return result.affectedRows === 1
+            return rows[0].affectedRows === 0 ? null : rows[0] as OrcamentoDBType
         } catch (erro) {
+            console.log(error)
             
             return null
         }

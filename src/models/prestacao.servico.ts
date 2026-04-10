@@ -5,7 +5,7 @@ import { generateUUID } from "../utils/uuid.js"
 
 
 export const PrestacaoServicoModel = {
-    async create(prestacaoServico: PrestacaoServicoDBType) {
+    async create(prestacaoServico: PrestacaoServicoDBType): Promise<PrestacaoServicoDBType | null> {
         try {
             const [rows] = await db.execute(
                 `INSERT INTO tbl_prestacao_servico 

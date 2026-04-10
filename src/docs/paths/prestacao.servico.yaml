@@ -134,3 +134,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /prestacao-servico/get-all-detalhada:
+    get:
+      summary: Buscar um lista de todas prestacao de servico detalhadas
+      tags:
+        - Prestação de Serviço
+      description: Retorna uma lista de todas as prestações de serviço detalhadas
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+          type: srting
+          example: "10"
+        - name: offset
+          in: query
+          required: false
+          schema:
+          type: srting
+          example: "0"
+      responses:
+        "200":
+          description: Prestação de serviço detalhada encontrada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseSuccess"
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
