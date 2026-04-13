@@ -33,23 +33,19 @@ export const PrestadorModel = {
     },
 
 
-    async getAll() {
-    try {
-        const query = 'SELECT * FROM tbl_prestadores'
+    async getAll(): Promise<PrestadorDBType[] | null> {
+    
+    const [rows] = await db.execute<PrestadorDBType[] & RowDataPacket[]>(
+        `SELECT * FROM tbl_prestadores`
+    )
+    return rows as PrestadorDBType[]
+    
+    },
 
-        const rows = await db.execute(query)
-
-        return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
-
-    } catch (error) {
-        console.log(error)
-        return null
-    }
-},
 
 async get(id: string): Promise<PrestadorDBType | null> {
     try {
-        const [rows] = await db.execute(
+        const [rows] = await db.execute<PrestadorDBType & RowDataPacket[]>(
         `SELECT * FROM tbl_prestadores 
         WHERE tbl_prestadores.id = ?`,
 
@@ -59,7 +55,7 @@ async get(id: string): Promise<PrestadorDBType | null> {
             return Array.isArray(rows)  ? rows[0] as PrestadorDBType : null
 
     } catch (error) {
-        console.log(error)
+        
         return null
     }
 },
@@ -100,16 +96,14 @@ async updatePrestador(id: string, prestadorAtualizado: PrestadorDBType) {
     }
 },
 
-async  deletePrestador(id: string) {
+async  deletePrestador(id: string): Promise<PrestadorDBType | null> {
     try {
-        const query = `DELETE FROM tbl_prestadores WHERE id =?`
-
-        const value = [id]
-
-        const rows :
-        any = await db.execute(query, value)
-
-            return rows[0].affectedRows === 1
+        const rows: any = await db.execute<PrestadorDBType & RowDataPacket[]>(
+        `DELETE FROM tbl_prestadores WHERE id =?`
+            ,
+        [id]
+        )
+        return rows[0].affectedRows === 0 ? null : rows[0] as PrestadorDBType
     } catch (error) {
         console.log(error)
         return null

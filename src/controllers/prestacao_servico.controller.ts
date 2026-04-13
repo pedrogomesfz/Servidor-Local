@@ -1,4 +1,4 @@
-import type { Request, Response } from "express"
+import { response, type Request, type Response } from "express"
 import type { PrestacaoServicoDBType, responseType } from "../utils/types.js"
 import { PrestacaoServicoModel } from "../models/prestacao.servico.js"
 import { PrestadorModel } from '../models/prestador.models.js';
@@ -29,29 +29,30 @@ export const PrestacaoServicoController = {
             message: "Prestacao de servico criada com sucesso",
             data:createPrestacaoServicoResponse
         }
-
         return res.status(201).json(response)
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllPrestacaoServicosResponse = await PrestacaoServicoModel.getAll()
+        const getAllPrestacaoServicosResponse: PrestacaoServicoDBType[] | null = await PrestacaoServicoModel.getAll()
 
         if (!getAllPrestacaoServicosResponse) {
-            return res.status(500).json({
+            const response: responseType<null>={
                 status: "error",
-                message: "Erro ao buscar prestacoes de servico",
+                message: "Erro ao buscar prestacao de servico",
                 data: null
-            })
+            }
+            return res.status(500).json(response)
         }
 
-        return res.status(200).json({
+        const response: responseType<PrestacaoServicoDBType[]>={
             status: "success",
-            message: "Prestacoes de servico buscadas com sucesso",
+            message: "Prestacao de servico buscada com sucesso",
             data: getAllPrestacaoServicosResponse
-        })
+        }
+        return res.status(200).json(response)
     },
 
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response) : Promise<Response> {
         const { id } = req.params
 
         if (!id) {
@@ -62,21 +63,17 @@ export const PrestacaoServicoController = {
             })
         }
 
-        const getPrestacaoServicoByIdResponse = await PrestacaoServicoModel.get(id as string)
+        const getPrestacaoServicoByIdResponse: PrestacaoServicoDBType | null = await PrestacaoServicoModel.get(id as string)
 
         if (!getPrestacaoServicoByIdResponse) {
             return res.status(404).json({
                 status: "error",
                 message: "Prestacao de servico nao encontrada",
-                data: null
+                data: getPrestacaoServicoByIdResponse
             })
         }
 
-        return res.status(200).json({
-            status: "success",
-            message: "Prestacao de servico encontrada com sucesso",
-            data: getPrestacaoServicoByIdResponse
-        })
+        return res.status(200).json(response)
     },
 
     async update(req: Request, res: Response) {
@@ -128,7 +125,7 @@ export const PrestacaoServicoController = {
             })
         }
         
-        const deletePrestacaoServicoResponse = await PrestacaoServicoModel.delete(id as string)
+        const deletePrestacaoServicoResponse : PrestacaoServicoDBType | null = await PrestacaoServicoModel.delete(id as string)
 
         if (!deletePrestacaoServicoResponse) {
             return res.status(400).json({

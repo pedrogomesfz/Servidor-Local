@@ -1,8 +1,8 @@
 // import { assServicoToDB } from "../models/servico.modedel.js"
 
 import { ServiceModel } from "../models/servico.modles.js"
-import type { ServiceDBType } from "../utils/types.js"
-import type { Request, Response } from "express"
+import type { responseType, ServiceDBType } from "../utils/types.js"
+import { response, type Request, type Response } from "express"
 
 
 export const ServiceController = {
@@ -17,35 +17,39 @@ export const ServiceController = {
             })
         }
 
-        const createServiceResponse = await ServiceModel.create(newService)
-        if (createServiceResponse) {
+        const createServiceResponse : ServiceDBType | null = await ServiceModel.create(newService)
+        
+        if (!createServiceResponse) {
             return res.status(400).json({
                 status: "error",
                 message: "Erro ao criar servico",
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "Success",
-            message: "Servico criado com success",
-            data: null
-        })
+        const response: responseType<ServiceDBType> = {
+            status: "success",
+            message: "Servico criado com sucesso",
+            data: createServiceResponse
+        }
+        return res.status(200).json(response)
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllServiceResponse = await ServiceModel.getAll()
+        const getAllServiceResponse : ServiceDBType[] | null = await ServiceModel.getAll()
         if (!getAllServiceResponse) {
-            return res.status(500).json({
+            const response: responseType<null> = {
                 status: "error",
-                message: "Erro ao buscar servico",
-                data: null
-            })
+                message: "Erro ao buscar servicos",
+                data: getAllServiceResponse
+            }
+            return res.status(500).json(response)
         }
-        return res.status(200).json({
-            status: "Success",
-            message: "Servico buscando com sucesso",
-            data: null
-        })
+        const response: responseType<ServiceDBType[]> = {
+            status: "success",
+            message: "Servicos encontrados com sucesso",
+            data: getAllServiceResponse
+        }
+        return res.status(200).json(response)
     },
 
     async get(req: Request, res: Response) {
@@ -59,7 +63,7 @@ export const ServiceController = {
             })
         }
 
-        const getServiceResponse = await ServiceModel.get(id as string)
+        const getServiceResponse : ServiceDBType | null = await ServiceModel.get(id as string)
         if (!getServiceResponse) {
             return res.status(400).json({
                 status: "error",
@@ -67,11 +71,12 @@ export const ServiceController = {
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "Success",
+        const response: responseType<ServiceDBType> = {
+            status: "success",
             message: "Servico encontrado com sucesso",
-            data: null
-        })
+            data: getServiceResponse
+        }
+        return res.status(200).json(response)
     },
 
     async update(req: Request, res: Response) {

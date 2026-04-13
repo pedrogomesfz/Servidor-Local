@@ -1,7 +1,7 @@
 // import { assServicoToDB } from "../models/servico.modedel.js"
 import type { get } from "node:http"
 import { UserModel } from "../models/user.models.js"
-import type { ServiceDBType, UserDBType, UserType } from "../utils/types.js"
+import type { responseType, ServiceDBType, UserDBType, UserType } from "../utils/types.js"
 import type { Request, Response } from "express"
 import { getUsersById, updateUser } from "../users.js"
 import db from "../lib/db.js"
@@ -24,7 +24,7 @@ export const UserController = {
             })
         }
 
-        const createUserResponse = await UserModel.create(newUser)
+        const createUserResponse: UserDBType | null = await UserModel.create(newUser)
         if (createUserResponse) {
             return res.status(400).json({
                 status: "error",
@@ -32,15 +32,16 @@ export const UserController = {
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "Success",
-            message: "Utilizador criado com success",
-            data: null
-        })
+        const response: responseType<UserDBType> = {
+            status: "success",
+            message: "Utilizador criado com sucesso",
+            data: createUserResponse
+        }
+        return res.status(200).json(response)
     },
 
     async getAll(req: Request, res: Response) {
-        const getAllUserServiceResponse = await UserModel.getAll()
+        const getAllUserServiceResponse: UserDBType[] | null = await UserModel.getAll()
         if (!getAllUserServiceResponse) {
             return res.status(500).json({
                 status: "error",
@@ -48,11 +49,12 @@ export const UserController = {
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "Success",
+        const response: responseType<UserDBType[]> = {
+            status: "success",
             message: "Utilizador buscando com sucesso",
-            data: null
-        })
+            data: getAllUserServiceResponse
+        }
+        return res.status(200).json(response)
     },
 
     async get(req: Request, res: Response) {
@@ -66,7 +68,7 @@ export const UserController = {
             })
         }
 
-        const getUserResponse = await UserModel.get(id as string)
+        const getUserResponse: UserDBType | null = await UserModel.get(id as string)
         if (!getUserResponse) {
             return res.status(400).json({
                 status: "error",
@@ -74,11 +76,12 @@ export const UserController = {
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "Success",
+        const response: responseType<UserDBType> = {
+            status: "success",
             message: "Servico encontrado com sucesso",
-            data: null
-        })
+            data: getUserResponse
+        }
+        return res.status(200).json(response)
     },
 
     
@@ -183,14 +186,16 @@ export const UserController = {
             })
         }
         
-            const deleteUserResponse = await UserModel.delete(id as string)
+            const deleteUserResponse : UserDBType | null = await UserModel.delete(id as string)
+            
             if(!deleteUserResponse) {
-            return res.status(400).json({
-                status: "error",
-                message: "Erro ao apagar utilizador",
-                data: null
-            })
-        }
+                const response: responseType<null> = {
+                    status: "error",
+                    message: "Erro ao apagar utilizador",
+                    data: null
+                }
+                return res.status(400).json(response)
+            }
         
             return res.status(200).json({
             status: "success",

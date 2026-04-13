@@ -196,3 +196,12 @@ export interface PrestacaoServicoDetalhoadaType {
     data_pedido: string,
     urgente: boolean
 }
+
+export interface ServicoDetalhadoType {
+    id: string,
+    nome: string,
+    descricao: string,
+    designacao : string,
+    icone : string,
+    
+}

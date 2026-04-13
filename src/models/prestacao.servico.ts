@@ -7,7 +7,7 @@ import { generateUUID } from "../utils/uuid.js"
 export const PrestacaoServicoModel = {
     async create(prestacaoServico: PrestacaoServicoDBType): Promise<PrestacaoServicoDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<PrestacaoServicoDBType & RowDataPacket[]>(
                 `INSERT INTO tbl_prestacao_servico 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 
@@ -25,33 +25,35 @@ export const PrestacaoServicoModel = {
                     new Date()
                 ]
             )
-            console.log({ rows })
-            return rows
-        } catch (err) {
-            console.log(err)
+            
+            return rows as PrestacaoServicoDBType
+        } catch (erro) {
+            
             return null
         }
     },
 
-    async getAll() {
-        const [rows] = await db.execute("SELECT * FROM tbl_prestacao_servico")
+    async getAll(): Promise<PrestacaoServicoDBType[] | null> {
+        const [rows] = await db.execute<PrestacaoServicoDBType[]  & RowDataPacket[]>(
+            "SELECT * FROM tbl_prestacao_servico"
+        )
 
-        return rows
+        return rows as PrestacaoServicoDBType[]
     },
 
-    async get(id: string) {
+    async get(id: string): Promise<PrestacaoServicoDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<PrestacaoServicoDBType & RowDataPacket[]>(
                 `SELECT * FROM tbl_prestacao_servico 
                 WHERE tbl_prestacao_servico.id = ?`,
 
                 [id]
             )
-
             if (Array.isArray(rows) && rows.length === 0) return null
-            return Array.isArray(rows) ? rows[0] : null
+            return Array.isArray(rows) ? rows[0] as PrestacaoServicoDBType : null
+            
         } catch (err) {
-            console.log(err)
+            
             return null
         }
     },
@@ -92,16 +94,16 @@ export const PrestacaoServicoModel = {
         }
     },
 
-    async delete(id: string) {
+    async delete(id: string) : Promise<PrestacaoServicoDBType | null> {
         try {
-            const rows: any = await db.execute(
+            const rows: any = await db.execute <PrestacaoServicoDBType & RowDataPacket[]>(
                 `DELETE FROM tbl_prestacao_servico 
                 WHERE id = ?`,
 
                 [id]
             )
 
-            return rows[0].affectedRows === 0 ? null : rows[0]
+            return rows[0].affectedRows === 0 ? null : rows[0] as PrestacaoServicoDBType
         } catch (err) {
             console.log(err)
             return null

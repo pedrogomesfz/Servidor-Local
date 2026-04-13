@@ -1,6 +1,6 @@
-import type { PropostaDBType } from "../utils/types.js"
+import type { PropostaDBType, responseType } from "../utils/types.js"
 import { PropostaModel } from "../models/proposta.models.js"
-import type { Request, Response } from "express"
+import { response, type Request, type Response } from "express"
 
 export const PropostaController = {
     async create(req: Request, res: Response) {
@@ -14,19 +14,22 @@ export const PropostaController = {
             })
         }
 
-        const createPropostaResponse = await PropostaModel.create(newProposta)
+        const createPropostaResponse : PropostaDBType | null = await PropostaModel.create(newProposta)
+
         if (createPropostaResponse) {
-            return res.status(400).json({
+            const response : responseType<null>={
                 status: "error",
                 message: "Erro ao criar proposta",
                 data: null
-            })
+            }
+            return res.status(500).json(response)
         }
-        return res.status(200).json({
-            status: "Success",
-            message: "Prestador criado com success",
-            data: null
-        })
+        const response : responseType<PropostaDBType> = {
+            status: "success",
+            message: "proposta criada com sucesso",
+            data: createPropostaResponse
+        }
+        return res.status(200).json(response)
     },
 
     async getAll(req: Request, res: Response) {

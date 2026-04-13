@@ -5,15 +5,18 @@ import type { ServicoType, UserDBType, UserType } from "../utils/types.js";
 import { generateUUID } from "../utils/uuid.js";
 import { hashPassword } from "../utils/password.js";
 import { formatDateDDMMYYYY } from "../utils/date.js";
+import type { RowDataPacket } from "mysql2/promise";
 
 
 
 export const UserModel = {
-    async create(newUsers: UserDBType) {
+    async create(newUsers: UserDBType): Promise<UserDBType | null> {
         try {
-            const query = 'INSERT INTO tbl_users (id, nome, numero_indentificado, email, telefone, numero_utilizador,data_nascimento, localidade,password, enabled, created_at, updated_at) VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?)'
+            const [rows] = await db.execute<UserDBType & RowDataPacket []>(
+            `INSERT INTO tbl_users 
+            VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?)`,
 
-            const values = [
+            [
                 null,
                 newUsers.nome,
                 newUsers.numero_identificado,
@@ -27,45 +30,36 @@ export const UserModel = {
                 new Date(),
                 new Date()
             ]
-
+        )
         
-            return await db.execute(query, values)
-
-
+            return rows as UserDBType
         } catch (error) {
             console.log(error)
             return null
         }
     },
 
-    async getAll() {
-        try {
-            const query = 'SELECT * FROM tbl_users'
+    async getAll(): Promise<UserDBType[] | null> {
+        const [rows] = await db.execute<UserDBType[] & RowDataPacket[]>(
+                'SELECT * FROM tbl_users'
+            )
+            return rows as UserDBType[]
 
-            const rows = await db.execute(query)
-
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
-
-        } catch (error) {
-            console.log(error)
-            return null
-        }
     },
 
-    async get(id: string) {
+    async get(id: string): Promise<UserDBType | null> {
         try {
-            const query = 'SELECT * FROM tbl_users WHERE id = ?'
-
-            const value = [id]
-
-            const rows = await db.execute(query, value)
-
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
-
+            const [rows] = await db.execute<UserDBType & RowDataPacket []>(
+             `SELECT * FROM tbl_users WHERE id = ?`,
+            [id]
+            )
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows[0] as UserDBType : null
         } catch (error) {
             console.log(error)
             return null
         }
+
     },
         async getByEmail(email: string): Promise<UserType | null> {
                     try{
@@ -122,16 +116,14 @@ export const UserModel = {
         }
     },
 
-    async delete(id: string) {
+    async delete(id: string) : Promise<UserDBType | null> {
         try {
-        const query = `DELETE FROM tbl_users WHERE id =?`
+        const rows : any = await db.execute< UserDBType []  & RowDataPacket[] >( 
+        `DELETE FROM tbl_users WHERE id =?`,
+        [id]
+    )
+    return rows[0].affectedRows === 0 ? null : rows[0] as UserDBType
 
-        const value = [id]
-
-        const rows :
-        any = await db.execute(query, value)
-
-            return rows[0].affectedRows === 1
     } catch (error) {
         console.log(error)
         return null

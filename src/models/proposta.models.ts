@@ -4,11 +4,13 @@ import db from "../lib/db.js";
 import type { PropostaDBType } from "../utils/types.js";
 
 export const PropostaModel = {
-    async create(newProposta: PropostaDBType) {
+    async create(newProposta: PropostaDBType): Promise<PropostaDBType | null> {
         try {
-            const query = 'INSERT INTO tbl_proposta (id, id_prestacao_servico,preco_hora,horas_estimadas,estado, enabled, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?)'
+            const [rows] = await db.execute<PropostaDBType & RowDataPacket[]>(
+            `INSERT INTO tbl_proposta 
+            VALUES (?,?,?,?,?,?,?,?)`,
 
-            const values = [
+            [
                 null,
                 newProposta.id_prestacao_servico,
                 newProposta.preco_hora,
@@ -18,15 +20,11 @@ export const PropostaModel = {
                 new Date(),
                 new Date()
             ]
-
-            const rows: any = await db.execute(query, values)
-
-            return rows[0].affectedRows === 1
-
-
-        } catch (error) {
-            console.log(error)
-            return null
+        )
+        return rows as PropostaDBType
+        }
+        catch (erro) {
+        return null
         }
     },
 
