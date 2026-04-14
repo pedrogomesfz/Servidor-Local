@@ -1,7 +1,7 @@
 // import { assServicoToDB } from "../models/servico.modedel.js"
 
 import { ServiceModel } from "../models/servico.modles.js"
-import type { responseType, ServiceDBType } from "../utils/types.js"
+import type { ResponseType, responseType, ServiceDBType } from "../utils/types.js"
 import { response, type Request, type Response } from "express"
 
 
@@ -143,5 +143,31 @@ export const ServiceController = {
             message: "Servico apagado com success",
             data: deleteServicoResponse
         })
+    },
+
+    async getAllServicoDetalhado(req: Request, res: Response){
+        const { limit, offset} = req.query
+
+        let LIMIT = 10 
+        let OFFSET = 10
+
+        if (limit) {
+            LIMIT = parseInt(limit as string)
+        }
+
+        if (offset) {
+            OFFSET = parseInt(limit as string)
+        }
+
+        const getAllServicoDetalhadoResponse = await ServiceModel.getAllServicoDetalhado(LIMIT, OFFSET)
+
+        if (!getAllServicoDetalhadoResponse){
+            const response: responseType<null> = {
+                status:"error",
+                message:"Erro ao buscar servicos",
+                data: null
+            }
+            return res.status(404).json(response)
+        }
     }
 }

@@ -119,8 +119,23 @@ ALTER TABLE tbl_servicos
     FOREIGN KEY (id_categoria)
     REFERENCES tbl_categoria(id)
     ;
-    
-    
+    ALTER TABLE tbl_prestacao_servico
+		ADD COLUMN urgent BOOLEAN AFTER id_orcamento
+        ;
+	ALTER TABLE tbl_prestadores
+		ADD COLUMN id_empresa INTEGER,
+        ADD CONSTRAINT fk_empresa_prestadores
+        FOREIGN KEY (id_empresa)
+        REFERENCES tbl_empresa(id)
+        ;
+        
+	ALTER TABLE tbl_prestacao_servico
+		ADD COLUMN id_empresa INTEGER,
+        ADD COLUMN tipo_prestador ENUM ("empresa","particular"),
+        ADD CONSTRAINT fK_empresa_prestacao_servico
+        FOREIGN KEY (id_empresa)
+        REFERENCES tbl_empresa(id)
+        ;
     
 ALTER TABLE tbl_proposta
 	ADD CONSTRAINT fk_prestacao_servico_proposta

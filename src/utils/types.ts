@@ -1,3 +1,31 @@
+
+export enum EstadoPrestacaoServico {
+    PENDENTE = "PENDENTE",
+    EM_ANDAMENTO = "EM_ANDAMENTO",
+    CONCLUIDA = "CONCLUIDA",
+    CANCELADA = "CANCELADA"
+}
+
+export enum Role{
+    CLIENTE = "cliente",
+    ADMIN = "admin",
+    PRESTADOR = "prestador",
+    EMPRESA = "empresa"
+}
+
+
+export enum EstadoProposta {
+    PENDENTE = "PENDENTE",
+    ACEITE = "ACEITE",
+    REJEITADA = "REJEITADA"
+}
+
+export enum TipoPrestador {
+    PRESTADOR = "prestador",
+    EMPRESA = "empresa"
+}
+
+
 export interface PedidoSevicoType {
     cliente: string;
     descricao: string;
@@ -44,10 +72,13 @@ export interface UserType {
 	pais: string,
 	localidade: string,
     password: string;
+    role: Role;
     enabled: boolean;
     created_at: string;
     updated_at: string
 }
+
+
 
 export interface ServicoType {
     id:string ,
@@ -160,6 +191,8 @@ export interface PrestacaoServicoDBType {
     id_orcamento:string,
     id_utilizador: string,
     id_servico:string,
+    id_empresa:string,
+    tipo_prestador: TipoPrestador,
     preco_hora:number,
     urgente:boolean,
     enabled:boolean,
@@ -168,18 +201,7 @@ export interface PrestacaoServicoDBType {
 
 }
 
-export enum EstadoProposta {
-    PENDENTE = "PENDENTE",
-    ACEITE = "ACEITE",
-    REJEITADA = "REJEITADA"
-}
 
-export enum EstadoPrestacaoServico {
-    PENDENTE = "PENDENTE",
-    EM_ANDAMENTO = "EM_ANDAMENTO",
-    CONCLUIDA = "CONCLUIDA",
-    CANCELADA = "CANCELADA"
-}
 
 export interface responseType <T> {
     status: "success" | "error",
@@ -201,7 +223,28 @@ export interface ServicoDetalhadoType {
     id: string,
     nome: string,
     descricao: string,
-    designacao : string,
-    icone : string,
-    
+    designacao_categoria : string,
+    icone_categoria : string,
+    id_empresa: string,
+    designacao_empresa: string
+}
+export interface CategoriaDBType {
+    id: string,
+    designacao: string,
+    icone: string,
+    created_at: string,
+    updated_at: string
+}
+
+export interface EmpresaDBtype {
+    id: string,
+    designacao: string,
+    descricao: string,
+    nif: string,
+    icone: string,
+    id_utilizador: string,
+    localizacao: string,
+    enabled: boolean,
+    created_at: string,
+    updated_at: string
 }

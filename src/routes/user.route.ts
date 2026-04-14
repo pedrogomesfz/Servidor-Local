@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UserController } from "../controllers/users.controler.js";
-import AuthMiddleware from "../security/auth.middleware.js";
+import AuthMiddleware, { authrize } from "../security/auth.middleware.js";
+import { Role } from "../utils/types.js";
 
 
 const UseRoute = {
@@ -18,18 +19,23 @@ const UseRoute = {
 
 const router = Router()
 
+
+
+router.post(UseRoute.create, UserController.login)
 router.post(UseRoute.create, UserController.create)
 
-router.get(UseRoute.getAll, AuthMiddleware, UserController.getAll)
+router.use(AuthMiddleware)
 
-router.get(UseRoute.get, AuthMiddleware, UserController.get)
+router.get(UseRoute.getAll,authrize([Role.ADMIN]), UserController.getAll)
 
-router.put(UseRoute.update, AuthMiddleware, UserController.update)
+router.get(UseRoute.get,authrize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR]), UserController.get)
 
-router.delete(UseRoute.delete, AuthMiddleware, UserController.delete)
+router.put(UseRoute.update,authrize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR]), UserController.update)
 
-router.put(UseRoute.resetPassword, UserController.resetPassword)
+router.delete(UseRoute.delete,authrize([Role.ADMIN]), UserController.delete)
 
-router.post(UseRoute.login, UserController.login)
+router.put(UseRoute.resetPassword,authrize([Role.ADMIN]), UserController.resetPassword)
+
+router.post(UseRoute.login,authrize([Role.ADMIN]), UserController.login)
 
 export { router }
