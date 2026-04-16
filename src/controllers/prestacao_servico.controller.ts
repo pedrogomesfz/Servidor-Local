@@ -1,5 +1,5 @@
 import { response, type Request, type Response } from "express"
-import type { PrestacaoServicoDBType, responseType } from "../utils/types.js"
+import type { PrestacaoServicoDBType, PrestacaoServicoPorCategoriaType, responseType } from "../utils/types.js"
 import { PrestacaoServicoModel } from "../models/prestacao.servico.js"
 import { PrestadorModel } from '../models/prestador.models.js';
 
@@ -167,7 +167,51 @@ export const PrestacaoServicoController = {
             message: "Prestaçoes de servico buscadas com sucesso",
             data: getAllPrestacaoServicoResponse
         })
-    }
+    },
+
+    async getAllPrestacaoServicoByCategoriaDetalhada(req: Request, res: Response) {
+        const { categoria } = req.params
+        const { limit, offset } = req.query as {limit: string , offset: string}
+
+        let LIMIT = 10 
+        let OFFSET = 0 
+
+        if ( limit && parseInt(limit) < 0) LIMIT = parseInt(limit)
+        if ( offset && parseInt(offset) < 0) OFFSET = parseInt(offset)
+        
+        if (!categoria){
+            const response: responseType<null> = {
+                status: "error",
+                message: "Categoria obrigatoria",
+                data: null
+            }
+            return res.status(400).json(response)
+        }
+        const  getAllPrestacaoServicoByCategoriaDetalhadaResponse = await PrestacaoServicoModel.getAllPrestacaoServicoByCategoriaDetalhada(categoria as string, LIMIT, OFFSET)
+
+            
+        if (!getAllPrestacaoServicoByCategoriaDetalhadaResponse){
+            const response: responseType<null> ={
+                status: "error",
+                message:" Prestacao de servico nao encontrada",
+                data: null
+            }
+            return res.status(404).json(response)
+            }
+
+            const response: responseType<PrestacaoServicoPorCategoriaType[]> = {
+                status: "success",
+                message: "Prestacao de servico por categoria buscada com sucesso",
+                data: getAllPrestacaoServicoByCategoriaDetalhadaResponse
+            }
+            return res.status(200).json(response)
+        }
+
+        
+        
+
+        
+    
 
     
 }

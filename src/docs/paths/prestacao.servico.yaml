@@ -168,3 +168,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /prestacao-servico/get-by-categoria/{categoria}:
+    get:
+      summary: Buscar prestações de serviços por categoria
+      tags:
+        - Prestacao de serviço
+      description: Retorna uma lista de prestações de serviços por categoria
+      parameters:
+        - name: Categoria
+          in: path
+          schema:
+            type: string
+            example: "1"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "10"
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "0"
+      responses:
+        "200":
+          description: Prestacao de serviço por categoria encontrada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+      "400":
+          description: Dados de prestação de serviço por categoria inválidos
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/ResponseError" 

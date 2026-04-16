@@ -42,18 +42,25 @@ export const PropostaModel = {
         }
     },
 
-    async get(id: string) {
-        try {
-            const query = 'SELECT * FROM tbl_orcamento WHERE id = ?'
+    async get (id: string): Promise<PropostaDBType | null>{
+        try{
+            const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(
+                `SELECT * DISNTING
+                pt.*,
+                pr.id as owner
+            FROM tbl_proposta pt
+            INNER JOIN tbl_prestador pr ON pt.id_prestador = pr.id
+            INNER JOIN tbl_utilizadores u ON pr.id_utilizador = u.id
+                WHERE tbl_propostas.id = ?`,
 
-            const value = [id]
+                [id]
+            )
 
-            const rows = await db.execute(query, value)
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows[0]! : null
 
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
-
-        } catch (error) {
-            console.log(error)
+        }catch (err){
+            console.log(err)
             return null
         }
     },
@@ -135,9 +142,7 @@ export const PropostaModel = {
     },
 
 
-
-
-
+    
     async delete(id: string) {
         try {
         const query = `DELETE FROM tbl_proposta WHERE id =?`
@@ -153,6 +158,8 @@ export const PropostaModel = {
         return null
     }
     }
+
+    
 
     
 }

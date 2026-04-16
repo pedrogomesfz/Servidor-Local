@@ -21,21 +21,16 @@ const router = Router()
 
 
 
-router.post(UseRoute.create, UserController.login)
+router.post(UseRoute.login, UserController.login)
 router.post(UseRoute.create, UserController.create)
 
 router.use(AuthMiddleware)
 
 router.get(UseRoute.getAll,authrize([Role.ADMIN]), UserController.getAll)
-
 router.get(UseRoute.get,authrize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR]), UserController.get)
-
 router.put(UseRoute.update,authrize([Role.ADMIN, Role.CLIENTE, Role.PRESTADOR]), UserController.update)
-
 router.delete(UseRoute.delete,authrize([Role.ADMIN]), UserController.delete)
-
 router.put(UseRoute.resetPassword,authrize([Role.ADMIN]), UserController.resetPassword)
-
 router.post(UseRoute.login,authrize([Role.ADMIN]), UserController.login)
 
 export { router }

@@ -1,6 +1,6 @@
 import type { RowDataPacket } from "mysql2"
 import db from "../lib/db.js"
-import type { PrestacaoServicoDetalhoadaType,  PrestacaoServicoDBType } from "../utils/types.js"
+import type { PrestacaoServicoDetalhoadaType,  PrestacaoServicoDBType, PrestacaoServicoPorCategoriaType, CategoriaDBType } from "../utils/types.js"
 import { generateUUID } from "../utils/uuid.js"
 
 
@@ -158,8 +158,46 @@ export const PrestacaoServicoModel = {
         }catch(err){
 
         }
+    },
+    
+    async getAllPrestacaoServicoByCategoriaDetalhada(idcategoria: string, limit: number, offset: number): Promise<PrestacaoServicoPorCategoriaType[] | null> {
+        try{
+            const query = `   
+            SELECT DISTINCT
+                ps.id as id_prestacao_servico,
+                ps.designacao as designacao,
+                s.nome as nome_servico,
+                ps.created_at as data_pedido,
+                ps.urgencia as urgencia,
+                c.id as c_id
+                c.designacao as c.designacao,
+                c.icone, as icone
+            FROM tbl_prestacao_servico ps
+            INNER JOIN tbl_servicos s ON ps.id_servico = s.id
+            INNER JOIN tbl_categoria c ON c.id = s.id_categoria
+            WHERE c.id = ?
+            ORDER BY ps.created_at DESC
+            LIMIT ? OFFSET ?`;
+
+            
+
+            const [rows] = await db.execute<PrestacaoServicoPorCategoriaType[] & RowDataPacket[]>(
+                query,
+                
+                [   
+                    idcategoria,
+                    limit.toString(),
+                    offset.toString()
+                ]
+
+            )
+            
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows as PrestacaoServicoPorCategoriaType[] : null;
+    } catch (error) {
+        console.error("Erro SQL em getPedidosPaginados:", error);
+        return null;
     }
-
-
-
 }
+}
+
