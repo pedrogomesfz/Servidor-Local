@@ -105,6 +105,13 @@ CREATE TABLE tbl_categoria(
     updated_at DATETIME NOT NULL
     );
     
+ALTER TABLE tbl_prestadores
+	ADD COLUMN id_utilizador VARCHAR(255) NOT NULL DEFAULT "4b016090-c538-4583-b6ba-37032f4ac5c1" AFTER id_empresa,
+    ADD CONSTRAINT fk_utilizador_prestadores
+    FOREIGN KEY (id_utilizador)
+    REFERENCES tbl_utilizadores(id)
+    ;
+    
 ALTER TABLE tbl_empresa
 	ADD COLUMN id_utilizador VARCHAR(255) NOT NULL AFTER icone,
 	ADD CONSTRAINT fk_utilizador_empresa

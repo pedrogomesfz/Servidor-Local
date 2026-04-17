@@ -1,0 +1,57 @@
+components:
+  schemas:
+    Categoria:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: "Categoria 1"
+        descricao:
+          type: string
+          example: "Descricao da categoria 1"
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2022-01-01T00:00:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2022-01-01T00:00:00.000Z"
+    CreateCategoria:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "Categoria 1"
+        descricao:
+          type: string
+          example: "Descricao da categoria 1"
+        enabled:
+          type: boolean
+          example: true
+
+    UpdateCategoria:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "Categoria 1"
+        descricao:
+          type: string
+          example: "Descricao da categoria 1"
+        enabled:
+          type: boolean
+          example: true 
+
+    DisableCategoria:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          example: false

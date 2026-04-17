@@ -1,0 +1,167 @@
+paths:
+
+  /categoria:
+    get:
+      summary: Listar todas as categorias
+      tags:
+        - categoria
+      description: Retorna uma lista de todas as categorias disponíveis
+      responses:
+        "200":
+          description: Lista de categorias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Categoria"
+        "404":
+          description: Nenhuma categoria encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /categoria/create:
+    post:
+      summary: Criar uma nova categoria
+      tags:
+        - categoria
+      description: Cria uma nova categoria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCategoria"
+      responses:
+        "200":
+          description: categoria criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "400":
+          description: Dados inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /categoria/get-by-id/{id}:
+    get:
+      summary: Buscar uma categoria por ID
+      tags:
+        - categoria
+      description: Retorna uma categoria específica pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da categoria
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: categoria encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "404":
+          description: categoria não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /categoria/update/{id}:
+    put:
+      summary: Atualizar uma categoria
+      tags:
+        - categoria
+      description: Atualiza uma categoria pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da categoria a ser atualizada
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCategoria"
+      responses:
+        "200":
+          description: categoria atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "404":
+          description: categoria não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /categoria/delete/{id}:
+    delete:
+      summary: Apagar uma categoria
+      tags:
+        - categoria
+      description: Apaga uma categoria específica pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da categoria a ser apagada
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: categoria apagada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "404":
+          description: categoria não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /categoria/:id/disable:
+    put:
+      summary: Desabilitar uma categoria
+      tags:
+        - categoria
+      description: Desabilita uma categoria específica pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do orçamento a ser calculado
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Valor total calculado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseSuccess"
+        "404":
+          description: Orçamento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
