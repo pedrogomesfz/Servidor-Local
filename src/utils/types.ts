@@ -79,7 +79,6 @@ export interface UserType {
 }
 
 
-
 export interface ServicoType {
     id:string ,
     nome:string ,
@@ -200,8 +199,6 @@ export interface PrestacaoServicoDBType {
     updated_at:string
 
 }
-
-
 
 export interface responseType <T> {
     status: "success" | "error",
