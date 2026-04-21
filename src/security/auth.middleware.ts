@@ -79,7 +79,16 @@ export function authrize(roles: string[]) {
         next()
     }
 }
+//me esplica a função acima authrize
 
+//A função `authrize` é um middleware de autorização para o Express.js. Ela é usada para restringir o acesso a determinadas rotas com base no papel (role) do usuário autenticado.
+//Aqui está uma explicação detalhada de como a função `authrize` funciona:
+//1. A função `authrize` recebe um array de strings chamado `roles`, que representa os papéis permitidos para acessar a rota.
+//2. Ela retorna uma função middleware que recebe os objetos `req`, `res` e `next` do Express.
+//3. Dentro do middleware, a função verifica se o objeto `req.user` existe. Este objeto é geralmente definido pelo middleware de autenticação (como o `AuthMiddleware`) e contém informações sobre o usuário autenticado.
+//4. Se `req.user` não existir, isso significa que o usuário não está autenticado, e a função retorna uma resposta com status 401 (Não Autorizado) e uma mensagem indicando que o usuário não está autorizado.
+//5. Se `req.user` existir, a função verifica se o papel do usuário (`req.user.role`) está incluído no array de papéis permitidos (`roles`). Se o papel do usuário não estiver na lista, a função retorna uma resposta com status 403 (Proibido) e uma mensagem indicando que a permissão é insuficiente.
+//6. Se o papel do usuário estiver na lista de papéis permitidos, a função chama `next()`, permitindo que a requisição prossiga para o próximo middleware ou para
 
 
 // req: {
