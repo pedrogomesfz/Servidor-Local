@@ -7,22 +7,22 @@ export enum EstadoPrestacaoServico {
 }
 
 export enum Role{
-    CLIENTE = "cliente",
-    ADMIN = "admin",
-    PRESTADOR = "prestador",
-    EMPRESA = "empresa"
+    CLIENTE = "CLIENTE" ,
+    ADMIN = "ADMIN" ,
+    PRESTADOR = "PRESTADOR" ,
+    EMPRESA = "EMPRESA"
 }
 
 
 export enum EstadoProposta {
-    PENDENTE = "PENDENTE",
-    ACEITE = "ACEITE",
+    PENDENTE = "PENDENTE" ,
+    ACEITE = "ACEITE" ,
     REJEITADA = "REJEITADA"
 }
 
 export enum TipoPrestador {
-    PRESTADOR = "prestador",
-    EMPRESA = "empresa"
+    PRESTADOR = "PRESTADOR" ,
+    EMPRESA = "EMPRESA"
 }
 
 

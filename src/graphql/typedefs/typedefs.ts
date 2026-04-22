@@ -5,10 +5,28 @@ import { gql } from "graphql-tag"
 export const typeDefs = gql`
 
     enum Role {
-        CLIENTE = "cliente",
-        ADMIN = "admin",
-        PRESTADOR = "prestador",
-        EMPRESA = "empresa"
+        CLIENTE,
+        ADMIN,
+        PRESTADOR,
+        EMPRESA 
+    }
+
+    enum TipoPrestador {
+        Autonomo,
+        Empresa
+    }
+    
+
+    enum EstadoProposta {
+        PENDENTE,
+        ACEITE,
+        REJEITADO
+    }
+
+    enum EstadoOrcamento {
+        PENDENTE,
+        ACEITE,
+        REJEITADO
     }
 
     type Utilizador {
@@ -24,22 +42,22 @@ export const typeDefs = gql`
         role: Role!
         estado: String!
         enabled: Boolean!
-        created_at: String
-        updated_at: String
+        createdAt: String
+        updatedAt: String
     }
 
 
     type Proposta {
         id: ID!,
-        idPrestadorServico:ID!,
+        idPrestadorServico: PrestacaoServico,
         precoHora: Float!,
         horasEstimadas: Int!,
         estado: EstadoProposta,
-        idPrestador: ID!,
+        idPrestador: Prestador,
         owner: String,
         enabled: Boolean!,
-        created_at: String,
-        updated_at: String
+        createdAt: String,
+        updatedAt: String
     }
     
     type PrestadorServico{
@@ -56,8 +74,8 @@ export const typeDefs = gql`
         preco_hora:Float!,
         urgente:Boolean!,
         enabled:Boolean!,
-        created_at:String,
-        updated_at:String
+        createdAt: String,
+        updatedAt: String
     }
     
     type Orcamento{
@@ -69,8 +87,8 @@ export const typeDefs = gql`
         total:Float!,
         id_utilizador2:ID!,
         enabled:Boolean!,
-        created_at:String,
-        update_at:String
+        createdAt: String,
+        updatedAt: String
     }
 
     type Prestador{
@@ -82,8 +100,8 @@ export const typeDefs = gql`
         percentagem_desconto:Float!,
         disponivel:Int!,
         enabled:Boolean!,
-        created_at:String,
-        update_at:String
+        createdAt: String,
+        updatedAt: String
     }
 
     type Empresa{
@@ -95,16 +113,16 @@ export const typeDefs = gql`
         id_utilizador:ID!,
         localizacao:String!,
         enabled:Boolean!,
-        created_at:String,
-        updated_at:String
+        createdAt: String,
+        updatedAt: String
     }
 
     type Categoria{
         id:ID!,
         icone:String!,
-        created_at:String,
+        createdAt: String,
         designacao:String!,
-        updated_at:String
+        updatedAt: String
     }
 
     type Servico{
@@ -113,16 +131,60 @@ export const typeDefs = gql`
         descricao:String!,
         categoria:String!,
         enabled:Boolean!,
-        created_at:String,
-        update_at:String
+        createdAt: String,
+        updatedAt: String
     }
 
-    type Query {
-        utilizadores: [Utilizador!]
-        utilizador(id: ID!): Utilizador
+    type Query{
+        getAllUsers: [Utilizador]
+        getUsersById(id: ID!): Utilizador
+        getAllServices: [Servico]
+        getServiceById(id: ID!): Servico
     }
 
     type Mutation {
-        utilizador(id: ID!): Utilizador
+        createUser(nome: String!,
+         "numero_identificacao": String!,
+          data_nascimento: String!,
+           email: String!,
+            telemovel: String!,
+             pais: String!, 
+             localidade: String!, 
+             password: String!,
+              role: Role!, 
+              estado: String!, 
+              enabled: Boolean!) : Utilizador
+
+        updateUser(id: ID!,
+         nome: String!,
+         numero_identificacao: String!,
+         data_nascimento: String!,
+         email: String!,
+         telemovel: String!,
+         pais: String!,
+         localidade: String!,
+         password: String!,
+         role: Role!,
+         estado: String!,
+         enabled: Boolean!) : Utilizador
+
+        deleteUser(id: ID!) : Utilizador
+
+        createService(nome: String!,
+         descricao: String!,
+         categoria: String!,
+         enabled: Boolean!) : Servico
+
+        updateService(id: ID!,
+         nome: String!,
+         descricao: String!,
+         categoria: String!,
+         enabled: Boolean!) : Servico
+
+        deleteService(id: ID!) : Servico
+
+    
+
     }
+
 `

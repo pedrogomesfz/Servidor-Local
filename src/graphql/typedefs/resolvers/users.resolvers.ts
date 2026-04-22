@@ -8,6 +8,7 @@ export const userResolver={
         getAllUsers: async ()=>{
             return await UserModel.getAll()
         },
+        
         getUsersById: async (_: any, args:{id: string})=>{
             return await UserModel.get(args.id)
         }

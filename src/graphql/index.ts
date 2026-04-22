@@ -9,6 +9,8 @@ export const resolvers = {
     Mutation:{
         ...userResolver.Mutation
     }
+
+    
 }
 
 export { typeDefs }
