@@ -1,5 +1,7 @@
-import { PrestacaoServicoModel } from "../../../models/prestacao.servico.js";
-import type {  PrestacaoServicoDBType } from "../../../utils/types.js";
+import { PrestacaoServicoModel } from "../../models/prestacao.servico.js";
+import { PrestadorModel } from "../../models/prestador.models.js";
+import { PropostaModel } from "../../models/proposta.models.js";
+import type {  PrestacaoServicoDBType } from "../../utils/types.js";
 
 export const prestacaoServicoResolver={
     Query:{
@@ -20,6 +22,17 @@ export const prestacaoServicoResolver={
         },
         deletePrestacaoServico: async(_:any, args:{ id: string})=>{
             return await PrestacaoServicoModel.delete(args.id)
+        },
+
+    },
+
+    PrestacaoServico: {
+        prestador: async (parent:{idPrestador: string})=>{
+            return await PrestadorModel.get(parent.idPrestador)
+        },
+
+        propostas: async (parent:{id: string})=>{
+            return await PropostaModel.getAll()
         }
     }
 }

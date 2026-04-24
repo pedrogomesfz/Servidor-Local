@@ -1,5 +1,6 @@
-import { EmpresaModel } from "../../../models/empresa.models.js";
-import type {  EmpresaDBtype } from "../../../utils/types.js";
+import { EmpresaModel } from "../../models/empresa.models.js";
+import { PrestadorModel } from "../../models/prestador.models.js";
+import type {  EmpresaDBtype } from "../../utils/types.js";
 
 export const empresaResolver={
     Query:{
@@ -21,5 +22,16 @@ export const empresaResolver={
         deleteEmpresa: async(_:any, args:{ id: string})=>{
             return await EmpresaModel.delete(args.id)
         }
+    },
+
+    Empresa: {
+        usuarios: async (parent:{id: string})=>{
+            return await EmpresaModel.get(parent.id)
+        },
+        
+        prestador: async (parent:{id: string})=>{
+            return await PrestadorModel.get(parent.id)
+        }
+
     }
 }
