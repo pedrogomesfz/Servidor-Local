@@ -113,12 +113,7 @@ export interface ListaServicoType {
 }
 
 export interface ServiceDBType {
-    prescentagem_desconto: any;
-    minimo_desconto: any;
-    taxa_urgencia: any;
-    profissao: any;
-    nif: any;
-    disponivel: any;
+    
     id:string,
     nome:string,
     descricao:string,

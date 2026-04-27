@@ -213,51 +213,53 @@ export const typeDefs = gql`
 
         deleteCategoria(id: ID!) : Categoria
 
-        createPrestacaoServico(designacao:String!,
-        subtorial:String!,
-        horas_estimadas:Int!,
-        id_prestadores:Prestador,
-        id_orcamento:Orcamento,
-        id_utilizador:Utilizador,
-        id_servico:Servico,
-        id_empresa:Empresa,
-        tipo_prestador: TipoPrestador,
-        preco_hora:Float!,
-        urgente:Boolean!,
-        enabled:Boolean!) : PrestacaoServico
+        createPrestacaoServico(designacao: String!,
+            subtorial: String!,
+            horas_estimadas: Int!,
+            id_prestadores: Int!,
+            id_orcamento: Int!,
+            id_utilizador: Int!,
+            id_servico: Int!,
+            id_empresa: Int!,
+            tipo_prestador: TipoPrestador, 
+            preco_hora: Float!,
+            urgente: Boolean!,
+            enabled: Boolean!) : PrestacaoServico
+
 
         updatePrestacaoServico(id: ID!,
-        designacao:String!,
-        subtorial:String!,
-        horas_estimadas:Int!,
-        id_prestadores:Prestador,
-        id_orcamento:Orcamento,
-        id_utilizador:Utilizador,
-        id_servico:Servico,
-        id_empresa:Empresa,
-        tipo_prestador: TipoPrestador,
-        preco_hora:Float!,
-        urgente:Boolean!,
-        enabled:Boolean!) : PrestacaoServico
+            designacao: String!,
+            subtorial: String!,
+            horas_estimadas: Int!,
+            id_prestadores: Int!,
+            id_orcamento: Int!,
+            id_utilizador: Int!,
+            id_servico: Int!,
+            id_empresa: Int!,
+            tipo_prestador: TipoPrestador, 
+            preco_hora: Float!,
+            urgente: Boolean!,
+            enabled: Boolean!) : PrestacaoServico
 
         deletePrestacaoServico(id: ID!) : PrestacaoServico
 
-        createProposta(prestacaoServico: PrestacaoServico,
+        createProposta(
+        prestacaoServico: Int!,
         precoHora: Float!,
         horasEstimadas: Int!,
         estado: EstadoProposta,
-        idPrestador: Prestador,
+        idPrestador: Int!,
         owner: String,
         enabled: Boolean!,
         createdAt: String,
         updatedAt: String) : Proposta
 
         updateProposta(id: ID!,
-        prestacaoServico: PrestacaoServico,
+        prestacaoServico: Int!,
         precoHora: Float!,
         horasEstimadas: Int!,
         estado: EstadoProposta,
-        idPrestador: Prestador,
+        idPrestador: Int!,
         owner: String,
         enabled: Boolean!,
         createdAt: String,
@@ -301,23 +303,24 @@ export const typeDefs = gql`
 
         deleteEmpresa(id: ID!) : Empresa
 
-        createOrcamento(estado: EstadoOrcamento,
-        horas_estimadas: Int!,
-        preco_hora: Float!,
-        id_prestacao_servico:PrestacaoServico,
-        total:Float!,
-        id_utilizador2:Utilizador,
-        enabled:Boolean!,
-        createdAt: String,
-        updatedAt: String) : Orcamento
+        createOrcamento(
+            estado: EstadoOrcamento,
+            horas_estimadas: Int!,
+            preco_hora: Float!,
+            id_prestacao_servico:Int!,
+            total:Float!,
+            id_utilizador2:Int!,
+            enabled:Boolean!,
+            createdAt: String,
+            updatedAt: String) : Orcamento
 
         updateOrcamento(id: ID!,
         estado: EstadoOrcamento,
         horas_estimadas: Int!,
         preco_hora: Float!,
-        id_prestacao_servico:PrestacaoServico,
+        id_prestacao_servico:Int!,
         total:Float!,
-        id_utilizador: Utilizador,
+        id_utilizador2:Int!,
         enabled:Boolean!,
         createdAt: String,
         updatedAt: String) : Orcamento

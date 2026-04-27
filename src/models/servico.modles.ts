@@ -4,13 +4,11 @@ import db from "../lib/db.js";
 import type { ServiceDBType, ServicoDetalhadoType, UserType } from "../utils/types.js";
 
 export const ServiceModel = {
-    async create(newService: ServiceDBType): Promise<ServiceDBType | null> {
+    async create(newService: ServiceDBType) {
         try {
-            const [rows] = await db.execute<ServiceDBType & RowDataPacket[]>(
-            `INSERT INTO tbl_servicos 
-            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            const query = 'INSERT INTO table_servicos (id, nome, descricao, categoria, enabled, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)'
 
-            [
+            const values = [
                 null,
                 newService.nome,
                 newService.descricao,
@@ -19,11 +17,17 @@ export const ServiceModel = {
                 new Date(),
                 new Date()
             ]
-        )
-            return rows as ServiceDBType
 
-            } catch (error) {
+            const rows = await db.execute(query, values)
+
+            // select last id
+            const queryLastId = `SELECT * FROM table_servicos ORDER BY id DESC LIMIT 1`
+            const [lastService] = await db.execute<ServiceDBType[] & RowDataPacket[]>(queryLastId)
+
+            return lastService[0] as ServiceDBType
             
+        } catch (error) {
+            console.log(error)
             return null
         }
     },
