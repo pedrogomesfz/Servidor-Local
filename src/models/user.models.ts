@@ -6,29 +6,43 @@ import { generateUUID } from "../utils/uuid.js";
 import { hashPassword } from "../utils/password.js";
 import { formatDateDDMMYYYY } from "../utils/date.js";
 import type { RowDataPacket } from "mysql2/promise";
+import { userInfo } from "node:os";
 
 
 
 export const UserModel = {
     async create(newUsers: UserDBType): Promise<UserDBType | null> {
-        try {
-            const [rows] = await db.execute<UserDBType & RowDataPacket []>(
-            `INSERT INTO tbl_users 
-            VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?)`,
-
-            [
-                null,
+        console.log(
                 newUsers.nome,
                 newUsers.numero_identificado,
+                formatDateDDMMYYYY(newUsers.data_nascimento),
                 newUsers.email,
                 newUsers.telefone,
-                newUsers.numero_utilizador,
-                formatDateDDMMYYYY(newUsers.data_nascimento),
                 newUsers.localidade,
                 await hashPassword(newUsers.password),
                 newUsers.enabled,
                 new Date(),
-                new Date()
+                new Date(),
+                newUsers.role,);
+        try {
+            const [rows] = await db.execute<UserDBType & RowDataPacket []>(
+            `INSERT INTO tbl_utilizadores (id, nome, numero_identificado, data_nascimento, email, telefone, pais, localidade, password, enabled, created_at, update_at, role)
+            VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+
+            [
+                generateUUID(),
+                newUsers.nome,
+                newUsers.numero_identificado,
+                formatDateDDMMYYYY(newUsers.data_nascimento),
+                newUsers.email,
+                newUsers.telefone,
+                newUsers.pais,
+                newUsers.localidade,
+                await hashPassword(newUsers.password),
+                newUsers.enabled,
+                new Date(),
+                new Date(),
+                newUsers.role,
             ]
         )
         
@@ -41,7 +55,7 @@ export const UserModel = {
 
     async getAll(): Promise<UserDBType[] | null> {
         const [rows] = await db.execute<UserDBType[] & RowDataPacket[]>(
-                'SELECT * FROM tbl_users'
+                'SELECT * FROM tbl_utilizadores'
             )
             return rows as UserDBType[]
 
@@ -50,7 +64,7 @@ export const UserModel = {
     async get(id: string): Promise<UserDBType | null> {
         try {
             const [rows] = await db.execute<UserDBType & RowDataPacket []>(
-             `SELECT * FROM tbl_users WHERE id = ?`,
+             `SELECT * FROM tbl_utilizadores WHERE id = ?`,
             [id]
             )
             if (Array.isArray(rows) && rows.length === 0) return null
@@ -78,13 +92,12 @@ export const UserModel = {
 
     async update(id: string, UserAtualizado: UserDBType) {
         try {
-            const query = `UPDATE tbl_users
+            const query = `UPDATE tbl_utilizadores
                         SET
                             nome=?,
                             numero_indentificado=?,
                             email=?,
                             telefone=?,
-                            numero_utilizador=?,
                             data_nascimento=?,
                             localidade=?,
                             password=?,
@@ -98,7 +111,6 @@ export const UserModel = {
                 UserAtualizado.numero_identificado,
                 UserAtualizado.email,
                 UserAtualizado.telefone,
-                UserAtualizado.numero_utilizador,
                 UserAtualizado.data_nascimento,
                 UserAtualizado.localidade,
                 UserAtualizado.password,
@@ -119,7 +131,7 @@ export const UserModel = {
     async delete(id: string) : Promise<UserDBType | null> {
         try {
         const rows : any = await db.execute< UserDBType []  & RowDataPacket[] >( 
-        `DELETE FROM tbl_users WHERE id =?`,
+        `DELETE FROM tbl_utilizadores WHERE id =?`,
         [id]
     )
     return rows[0].affectedRows === 0 ? null : rows[0] as UserDBType
